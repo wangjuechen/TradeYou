@@ -25,7 +25,14 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-vector-drawable:26.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'se.akerfeldt:okhttp-signpost:1.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+
