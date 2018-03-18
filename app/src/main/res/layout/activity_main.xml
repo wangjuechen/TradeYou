@@ -15,14 +15,91 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/title_home_browse"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/home_title_font_size"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/API_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+
+        <TextView
+            android:id="@+id/tv_marketPlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/activity_vertical_margin"
+            android:drawableTop="@drawable/ic_local_grocery_store_black_24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="@dimen/touchable_padding"
+            android:onClick="onClick"
+            android:text="@string/marketPlace_home"
+            android:textSize="@dimen/home_subtitle_font_size" />
+
+
+        <TextView
+            android:id="@+id/tv_jobs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/activity_vertical_margin"
+            android:drawableTop="@drawable/ic_assignment_ind_black_24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/touchable_padding"
+            android:onClick="onClick"
+            android:text="@string/jobs_home"
+            android:textSize="@dimen/home_subtitle_font_size" />
+
+        <TextView
+            android:id="@+id/tv_motors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/activity_vertical_margin"
+            android:drawableTop="@drawable/ic_directions_car_black_24dp"
+            android:gravity="center"
+            android:padding="@dimen/touchable_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:text="@string/motors_home"
+            android:textSize="@dimen/home_subtitle_font_size" />
+
+        <TextView
+            android:id="@+id/tv_property"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:drawablePadding="@dimen/activity_vertical_margin"
+            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:gravity="center"
+            android:padding="@dimen/touchable_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="onClick"
+            android:text="@string/property_home"
+            android:textSize="@dimen/home_subtitle_font_size" />
+
+
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.Models;
+package com.jc.android.tradeyou.models;
 
 
 import com.google.gson.annotations.Expose;
@@ -6,7 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SubcategoryC {
+public class SubcategoryB {
+
     @SerializedName("Name")
     @Expose
     private String name;
@@ -21,7 +22,7 @@ public class SubcategoryC {
 
     @SerializedName("Subcategories")
     @Expose
-    private List<SubcategoryD> Subcategories = null;
+    private List<SubcategoryC> Subcategories = null;
 
     @SerializedName("Count")
     @Expose

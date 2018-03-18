@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.API;
+package com.jc.android.tradeyou.api;
 
 
 import retrofit2.Retrofit;

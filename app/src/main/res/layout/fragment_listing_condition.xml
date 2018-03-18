@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jc.android.tradeyou.ListingConditionFragment">
+
+    <LinearLayout
+        android:id="@+id/layout_listing_category_condition"
+        android:background="@color/condition_background_color"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
+            android:layout_marginBottom="@dimen/touchable_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/row_padding"
+            android:background="@drawable/category_condition_round_corner"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/tv_listing_category_first_condition"
+                android:gravity="top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:drawablePadding="@dimen/touchable_padding"
+                android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
+                tools:text="AAAAAA"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

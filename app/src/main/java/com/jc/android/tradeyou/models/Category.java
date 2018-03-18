@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.Models;
+package com.jc.android.tradeyou.models;
 
 
 import com.google.gson.annotations.Expose;

@@ -5,4 +5,15 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="title_home_browse">Browse</string>
+
+    <string name="marketPlace_home">Marketplace</string>
+    <string name="jobs_home">Jobs</string>
+    <string name="motors_home">Motors</string>
+    <string name="property_home">Property</string>
+
+    <string name="activity_label_marketPlace_categoryBrowse">Browse Marketplace</string>
+
+    <string name="contentDescription_item_listing_image">Item preview image in listing</string>
+    <string name="contentDescription_cotegory_condition_arrow">arrow in category condition</string>
+
 </resources>
