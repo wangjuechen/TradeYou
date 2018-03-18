@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.jc.android.tradeyou.ListingActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.models.SubcategoryA;
-import com.jc.android.tradeyou.models.SubcategoryB;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private final Context mContext;
     private List<SubcategoryA> mSubcategoryAList = new ArrayList<>();
-    private List<SubcategoryB> mSubcategoryBList = new ArrayList<>();
 
     public CategoryAdapter(Context context, List<SubcategoryA> CategoryList) {
         this.mContext = context;
@@ -71,6 +68,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @Override
         public void onClick(View v) {
+
             String clickedCategoryName = mSubcategoryAList.get(getAdapterPosition()).getName();
 
             String clickedCategoryNumber = mSubcategoryAList.get(getAdapterPosition()).getIdentifier_number();

@@ -1,5 +1,6 @@
 package com.jc.android.tradeyou;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,13 +26,14 @@ import retrofit2.Response;
 
 public class MarketCategoryActivity extends AppCompatActivity {
 
+    public static final String CATEGORY_LIST_TAG = "subcategoryAList";
+
     private RecyclerView mRecyclerView_CategoryList;
 
     private CategoryAdapter mCategoryAdapter;
 
-    private TradeMeApI tradeMeApi;
-
     private List<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,46 +42,19 @@ public class MarketCategoryActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        loadTradeMeAPI();
+        getIntentFromMainActivity();
+
+        setupRecyclerView();
 
     }
 
-    private void loadTradeMeAPI() {
+    private void getIntentFromMainActivity() {
 
-        tradeMeApi = ApiUtils.getTradeMeApi();
+        Intent intent = getIntent();
 
-        tradeMeApi.getCategory().enqueue(new Callback<Category>() {
-
-            @Override
-            public void onResponse(Call<Category> call, Response<Category> response) {
-                if (response.isSuccessful()) {
-
-                    mMarketPlaceCategoryList = response.body().getSubcategories();
-
-                    setupRecyclerView();
-
-                    Log.d("MarketCategoryActivity", "posts loaded from API");
-
-                } else {
-                    int statusCode = response.code();
-
-                    Log.d("MarketCategoryActivity", "Error code: " + statusCode + response.message());
-                    // handle request errors depending on status code
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-                if (t instanceof IOException) {
-                    Toast.makeText(MarketCategoryActivity.this, "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
-                    // logging probably not necessary
-                } else {
-                    Toast.makeText(MarketCategoryActivity.this, "Data fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
-
-                }
-            }
-        });
+       if(intent.getExtras()!=null){
+           mMarketPlaceCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_LIST_TAG);
+       }
     }
 
     private void setupRecyclerView() {
