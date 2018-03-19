@@ -32,7 +32,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
 
     private CategoryAdapter mCategoryAdapter;
 
-    private List<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
+    private ArrayList<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
 
 
     @Override

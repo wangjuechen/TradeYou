@@ -28,7 +28,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="@dimen/row_padding"
         android:layout_marginRight="@dimen/row_padding"
-        tools:text="sjdkhglsjfdklsjflkjsdlfjslffdsfsdfsfsdfsfsfjfklsjflkjsdflkjsdlfjsldfjsd"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
         android:maxLines="2"
         android:ellipsize="end"
         android:layout_marginStart="@dimen/row_padding" />

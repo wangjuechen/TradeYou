@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jc.android.tradeyou.adapter.ItemListingAdapter;
-import com.jc.android.tradeyou.api.ApiUtils;
+import com.jc.android.tradeyou.api.APIError;
+import com.jc.android.tradeyou.api.ErrorUtils;
 import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.ItemDetails;
+import com.jc.android.tradeyou.models.ItemDetailsFromListing;
 import com.jc.android.tradeyou.models.Listing;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class ListingContentFragment extends Fragment {
 
     private ItemListingAdapter mItemListingAdapter;
 
-    private List<ItemDetails> mItemDetailsList = new ArrayList<>();
+    private List<ItemDetailsFromListing> mItemDetailsList = new ArrayList<>();
 
     private RecyclerView mListingRecyclerView;
 
@@ -98,7 +99,8 @@ public class ListingContentFragment extends Fragment {
         String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
         String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class," OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");//TODO: here need OAuth to access
+        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class,
+                " OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");
 
         tradeMeApi.getListing(mSelectedSubcategoryBNumber).enqueue(new Callback<Listing>() {
 
@@ -121,10 +123,15 @@ public class ListingContentFragment extends Fragment {
                     Log.d("ListingContentFragment", "Listing loaded from API");
 
                 } else {
+
                     int statusCode = response.code();
 
-                    Log.d("ListingContentFragment", "Error code: " + statusCode + response.message());
-                    // handle request errors depending on status code
+                    Toast.makeText(getActivity(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
+
+                    APIError error = ErrorUtils.parseError(response);
+
+                    Log.d("ListingContentFragment", "Error code: " + statusCode + response.message() + error.message());
+
                 }
             }
 
@@ -132,8 +139,9 @@ public class ListingContentFragment extends Fragment {
             public void onFailure(Call<Listing> call, Throwable t) {
                 if (t instanceof IOException) {
                     Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
-                    // logging probably not necessary
+
                 } else {
+
                     Toast.makeText(getActivity(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
                     Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
 
@@ -142,7 +150,6 @@ public class ListingContentFragment extends Fragment {
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

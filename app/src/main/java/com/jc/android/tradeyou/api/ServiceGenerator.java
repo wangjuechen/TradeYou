@@ -2,8 +2,6 @@ package com.jc.android.tradeyou.api;
 
 
 import android.text.TextUtils;
-
-import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,23 +17,7 @@ public class ServiceGenerator {
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
 
-    private static Retrofit retrofit = builder.build();
-
-
-    public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null);
-    }
-
-    public static <S> S createService(
-            Class<S> serviceClass, String clientId, String clientSecret) {
-        if (!TextUtils.isEmpty(clientId)
-                && !TextUtils.isEmpty(clientSecret)) {
-            String authToken = Credentials.basic(clientId, clientSecret);
-            return createService(serviceClass, authToken);
-        }
-
-        return createService(serviceClass, null, null);
-    }
+    public static Retrofit retrofit = builder.build();
 
     public static <S> S createService(
             Class<S> serviceClass, final String authToken) {

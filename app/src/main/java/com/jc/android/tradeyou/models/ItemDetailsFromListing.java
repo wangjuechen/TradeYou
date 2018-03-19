@@ -4,7 +4,7 @@ package com.jc.android.tradeyou.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ItemDetails {
+public class ItemDetailsFromListing {
 
     @SerializedName("ListingId")
     @Expose

@@ -14,10 +14,10 @@ public class Listing {
 
     @SerializedName("List")
     @Expose
-    private List<ItemDetails> itemDetailsList = null;
+    private List<ItemDetailsFromListing> itemDetailsList = null;
 
 
-    public Integer getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
@@ -25,11 +25,11 @@ public class Listing {
         this.totalCount = totalCount;
     }
 
-    public List<ItemDetails> getItemDetailsList() {
+    public List<ItemDetailsFromListing> getItemDetailsList() {
         return itemDetailsList;
     }
 
-    public void setItemDetailsList(List<ItemDetails> itemDetailsList) {
+    public void setItemDetailsList(List<ItemDetailsFromListing> itemDetailsList) {
         this.itemDetailsList = itemDetailsList;
     }
 }

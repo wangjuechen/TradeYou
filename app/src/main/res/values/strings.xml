@@ -16,4 +16,7 @@
     <string name="contentDescription_item_listing_image">Item preview image in listing</string>
     <string name="contentDescription_cotegory_condition_arrow">arrow in category condition</string>
 
+    <string name="listing_id_detail_page">Listing Id: %d</string>
+    <string name="listing_title_detail_page">Listing title: %s</string>
+
 </resources>

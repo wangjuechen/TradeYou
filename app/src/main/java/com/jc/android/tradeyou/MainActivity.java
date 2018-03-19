@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jc.android.tradeyou.api.ApiUtils;
+import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
 import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TradeMeApI tradeMeApi;
 
-    private ArrayList<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
+    private ArrayList<SubcategoryA> mAllCategoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadTradeMeAPI() {
 
-        tradeMeApi = ApiUtils.getTradeMeApi();
+        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
 
         tradeMeApi.getCategory().enqueue(new Callback<Category>() {
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    mMarketPlaceCategoryList = response.body().getSubcategories();
+                    mAllCategoryList = response.body().getSubcategories();
 
                     Log.d("MainActivity", "Loaded from API is complete");
 
@@ -90,14 +91,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
     private void openMarketPlaceCategoryActivity() {
 
         Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
 
         Bundle extra = new Bundle();
 
-        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mMarketPlaceCategoryList);
+        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
 
         openMarketPlaceCategoryIntent.putExtras(extra);
 
@@ -110,7 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        SubcategoryA jobSubcategoryList = mMarketPlaceCategoryList.get(2);
+        int jobCategoryIndex = 2;
+
+        SubcategoryA jobSubcategoryList = mAllCategoryList.get(jobCategoryIndex);
 
         String name = jobSubcategoryList.getName();
 
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        SubcategoryA motorsSubcategoryList = mMarketPlaceCategoryList.get(0);
+        SubcategoryA motorsSubcategoryList = mAllCategoryList.get(0);
 
         String name = motorsSubcategoryList.getName();
 
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        SubcategoryA propertySubcategoryList = mMarketPlaceCategoryList.get(1);
+        SubcategoryA propertySubcategoryList = mAllCategoryList.get(1);
 
         String name = propertySubcategoryList.getName();
 

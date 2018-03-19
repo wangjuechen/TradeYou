@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jc.android.tradeyou.ListingActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.models.SubcategoryA;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private final Context mContext;
     private List<SubcategoryA> mSubcategoryAList = new ArrayList<>();
+    private int mMarketPlaceSubcategoryStartIndex = 3;
 
     public CategoryAdapter(Context context, List<SubcategoryA> CategoryList) {
         this.mContext = context;
-        this.mSubcategoryAList = CategoryList.subList(3, CategoryList.size() - 1);
+        this.mSubcategoryAList = CategoryList.subList(mMarketPlaceSubcategoryStartIndex, CategoryList.size());
     }
 
     @Override
@@ -42,8 +44,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(CategoryAdapterViewHolder holder, int position) {
 
         holder.tv_categoryName.setText(mSubcategoryAList.get(position).getName());
-
-        Log.d("CategoryListName: ", mSubcategoryAList.get(position).getName());
 
     }
 
@@ -75,7 +75,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             startCategoryListActivity(clickedCategoryName, clickedCategoryNumber);
 
-            Log.d("CategoryAdapter: ", "Clicked Category in subCategory, " +  clickedCategoryName + clickedCategoryNumber);
+            Log.d("CategoryAdapter ", "Clicked Category in subCategory, " + clickedCategoryName + clickedCategoryNumber);
 
         }
 

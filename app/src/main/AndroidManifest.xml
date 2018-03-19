@@ -23,8 +23,10 @@
         <activity
             android:name=".MarketCategoryActivity"
             android:label="@string/activity_label_marketPlace_categoryBrowse" />
-        <activity android:name=".ListingActivity"
-            android:label="@string/title_home_browse"></activity>
+        <activity
+            android:name=".ListingActivity"
+            android:label="@string/title_home_browse" />
+        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>
