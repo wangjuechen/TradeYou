@@ -58,18 +58,18 @@ public class DetailsActivity extends AppCompatActivity {
         mTradeMeApI = ServiceGenerator.createService(TradeMeApI.class,
                 " OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");
 
-        mTradeMeApI.getItemDetailsFromID(mListingId).enqueue(new Callback<ItemDetailsFromIDPath>() {
+        mTradeMeApI.getItemDetailsFromID(String.valueOf(mListingId)).enqueue(new Callback<ItemDetailsFromIDPath>() {
             @Override
             public void onResponse(Call<ItemDetailsFromIDPath> call, Response<ItemDetailsFromIDPath> response) {
                 if (response.isSuccessful()) {
                     String listingTitle = response.body().getItemTitle();
-                    String listingPicUrl = response.body().getItemPictureUrlCollections().get(0).get(0);
+                    //String listingPicUrl = response.body().getItemPictureUrlCollections().get(0).get(0);
 
                     tv_listing_title.setText(getResources().getString(R.string.listing_title_detail_page, listingTitle));
 
-                    Glide.with(getApplicationContext()).
-                            load(listingPicUrl).
-                            into(iv_listing_picture);
+//                    Glide.with(getApplicationContext()).
+//                            load(listingPicUrl).
+//                            into(iv_listing_picture);
                 } else {
 
                     int statusCode = response.code();
@@ -78,7 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     APIError error = ErrorUtils.parseError(response);
 
-                    Log.d("ListingContentFragment", "Error code: " + statusCode + response.message() + error.message());
+                    Log.d("DetailActivity", "Error code: " + statusCode + response.message() + error.message());
                 }
             }
 
@@ -90,7 +90,7 @@ public class DetailsActivity extends AppCompatActivity {
                 } else {
 
                     Toast.makeText(getApplicationContext(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    Log.d("DetailActivity", "Error: " + t.getMessage());
 
                 }
             }

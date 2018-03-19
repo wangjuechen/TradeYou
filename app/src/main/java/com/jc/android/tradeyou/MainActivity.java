@@ -93,15 +93,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openMarketPlaceCategoryActivity() {
 
-        Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
+//        Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
+//
+//        Bundle extra = new Bundle();
+//
+//        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+//
+//        openMarketPlaceCategoryIntent.putExtras(extra);
+//
+//        startActivity(openMarketPlaceCategoryIntent);
 
-        Bundle extra = new Bundle();
+            Intent intent = new Intent(this, DetailsActivity.class);
 
-        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+            Bundle extra = new Bundle();
 
-        openMarketPlaceCategoryIntent.putExtras(extra);
+            extra.putInt(DetailsActivity.CLICKEDLISTINGID_TAG, 1);
 
-        startActivity(openMarketPlaceCategoryIntent);
+            intent.putExtras(extra);
+
+            startActivity(intent);
+
     }
 
     private void openJobsListingActivity() {

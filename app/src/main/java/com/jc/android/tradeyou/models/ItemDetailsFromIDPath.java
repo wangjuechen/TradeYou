@@ -13,9 +13,9 @@ public class ItemDetailsFromIDPath {
     @Expose
     private String itemTitle;
 
-    @SerializedName("Photos")
-    @Expose
-    private Map<Integer, ArrayList<String>> itemPictureUrlCollections = null;
+//    @SerializedName("Photos")
+//    @Expose
+//    private Map<Integer, ArrayList<String>> itemPictureUrlCollections = null;
 
     public String getItemTitle() {
         return itemTitle;
@@ -25,11 +25,11 @@ public class ItemDetailsFromIDPath {
         this.itemTitle = itemTitle;
     }
 
-    public Map<Integer, ArrayList<String>> getItemPictureUrlCollections() {
-        return itemPictureUrlCollections;
-    }
-
-    public void setItemPictureUrlCollections(Map<Integer, ArrayList<String>> itemPictureUrlCollections) {
-        this.itemPictureUrlCollections = itemPictureUrlCollections;
-    }
+//    public Map<Integer, ArrayList<String>> getItemPictureUrlCollections() {
+//        return itemPictureUrlCollections;
+//    }
+//
+//    public void setItemPictureUrlCollections(Map<Integer, ArrayList<String>> itemPictureUrlCollections) {
+//        this.itemPictureUrlCollections = itemPictureUrlCollections;
+//    }
 }

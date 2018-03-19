@@ -19,5 +19,5 @@ public interface TradeMeApI {
     Call<Listing> getListing(@Query("category") String category);
 
     @GET("v1/Listings/{Id}.json")
-    Call<ItemDetailsFromIDPath> getItemDetailsFromID(@Path("Id") Integer listingId);
+    Call<ItemDetailsFromIDPath> getItemDetailsFromID(@Path("Id") String listingId);
 }
