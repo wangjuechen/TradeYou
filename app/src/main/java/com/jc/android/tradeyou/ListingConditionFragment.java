@@ -1,6 +1,7 @@
 package com.jc.android.tradeyou;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,41 +10,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jc.android.tradeyou.models.SubcategoryB;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ListingConditionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ListingConditionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import cn.yhq.dialog.core.DialogBuilder;
+
+
 public class ListingConditionFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_TAG = ListingActivity.CLICKEDCATEGORYNAME_TAG;
 
-    // TODO: Rename and change types of parameters
+    private static final String NAME_ARG_TAG = ListingActivity.CLICKEDCATEGORYNAME_TAG;
+
+    private static final String SUBCATEGORY_ARG_TAG = ListingActivity.CLICKEDCATEGORYSUBLIST_TAG;
+
+    private ArrayList<SubcategoryB> mSubcategoryBList = new ArrayList<>();
+
+    private ArrayList<String> mSubcategoryBNameList = new ArrayList<>();
+
     private String mSelectedSubcategoryBName;
+
+    private Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
 
+    @BindView(R.id.tv_listing_category_first_condition)
+    TextView tv_first_condition;
+    @BindView(R.id.tv_listing_category_second_condition)
+    TextView tv_second_condition;
+    @BindView(R.id.tv_listing_category_third_condition)
+    TextView tv_third_condition;
+    @BindView(R.id.tv_listing_category_forth_condition)
+    TextView tv_forth_condition;
+    @BindView(R.id.tv_listing_category_fifth_condition)
+    TextView tv_fifth_condition;
+
+
     public ListingConditionFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment ListingConditionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ListingConditionFragment newInstance(String param1) {
         ListingConditionFragment fragment = new ListingConditionFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_TAG, param1);
+        args.putString(NAME_ARG_TAG, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,10 +65,14 @@ public class ListingConditionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
 
-            mSelectedSubcategoryBName = getArguments().getString(ARG_TAG);
+            mSelectedSubcategoryBName = getArguments().getString(NAME_ARG_TAG);
 
+            mSubcategoryBList = (ArrayList<SubcategoryB>) getArguments().getSerializable(SUBCATEGORY_ARG_TAG);
+
+            fetchSecondCategory();
         }
     }
 
@@ -63,13 +81,41 @@ public class ListingConditionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_listing_condition, container, false);
 
-        TextView tv_condition = rootView.findViewById(R.id.tv_listing_category_first_condition);
-        tv_condition.setText(mSelectedSubcategoryBName);
+        unbinder = ButterKnife.bind(this, rootView);
+
+        tv_first_condition.setText(mSelectedSubcategoryBName);
 
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @OnClick(R.id.tv_listing_category_first_condition)
+    public void chooseSecondCategory(View view) {
+
+        DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryBNameList)
+                .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
+                .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
+
+                    @Override
+                    public void onChoiceItem(int index, Object item) {
+                        tv_second_condition.setText(mSubcategoryBNameList.get(index));
+                        tv_second_condition.setVisibility(View.VISIBLE);
+                    }
+                }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
+    }
+
+    private void fetchSecondCategory() {
+        for (int i = 0; i < mSubcategoryBList.size(); i++) {
+            mSubcategoryBNameList.add(mSubcategoryBList.get(i).getName());
+        }
+    }
+
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -88,23 +134,20 @@ public class ListingConditionFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        unbinder.unbind();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         void onFragmentInteraction(Uri uri);
     }
 }

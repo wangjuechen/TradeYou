@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jc.android.tradeyou.ListingActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.models.SubcategoryA;
+import com.jc.android.tradeyou.models.SubcategoryB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,23 +70,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         @Override
         public void onClick(View v) {
 
+            ArrayList<SubcategoryB> subcategoryBList = mSubcategoryAList.get(getAdapterPosition()).getSubcategories();
+
             String clickedCategoryName = mSubcategoryAList.get(getAdapterPosition()).getName();
 
             String clickedCategoryNumber = mSubcategoryAList.get(getAdapterPosition()).getIdentifier_number();
 
-            startCategoryListActivity(clickedCategoryName, clickedCategoryNumber);
+            startCategoryListActivity(subcategoryBList, clickedCategoryName, clickedCategoryNumber);
 
             Log.d("CategoryAdapter ", "Clicked Category in subCategory, " + clickedCategoryName + clickedCategoryNumber);
 
         }
 
-        private void startCategoryListActivity(String CategoryName, String CategoryNumber) {
+        private void startCategoryListActivity(ArrayList<SubcategoryB> CategorySubcategoryList, String CategoryName, String CategoryNumber) {
 
             Bundle bundle = new Bundle();
 
             bundle.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, CategoryName);
 
             bundle.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, CategoryNumber);
+
+            bundle.putSerializable(ListingActivity.CLICKEDCATEGORYSUBLIST_TAG, CategorySubcategoryList);
 
             Intent intent = new Intent(mContext, ListingActivity.class);
 

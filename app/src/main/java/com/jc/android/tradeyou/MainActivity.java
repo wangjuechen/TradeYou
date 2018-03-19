@@ -7,13 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.jc.android.tradeyou.api.ApiUtils;
 import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
 import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,12 +25,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<SubcategoryA> mAllCategoryList = new ArrayList<>();
 
+    public static final String CATEGORY_NAME_TAG = "Category_name_tag_mainactivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadTradeMeAPI();
+        //loadTradeMeAPI();
+        getCategoryListFromSplashActivity();
     }
 
 
@@ -91,27 +95,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void getCategoryListFromSplashActivity() {
+
+        Intent intent = getIntent();
+
+        if (intent.getExtras() != null) {
+            mAllCategoryList = (ArrayList<SubcategoryA>) intent.getExtras().getSerializable(CATEGORY_NAME_TAG);
+        }
+
+    }
+
     private void openMarketPlaceCategoryActivity() {
 
-//        Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
+        Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
+
+        Bundle extra = new Bundle();
+
+        extra.putSerializable(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+
+        openMarketPlaceCategoryIntent.putExtras(extra);
+
+        startActivity(openMarketPlaceCategoryIntent);
+
+//        Intent intent = new Intent(this, DetailsActivity.class);
 //
 //        Bundle extra = new Bundle();
 //
-//        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+//        extra.putInt(DetailsActivity.CLICKEDLISTINGID_TAG, 1);
 //
-//        openMarketPlaceCategoryIntent.putExtras(extra);
+//        intent.putExtras(extra);
 //
-//        startActivity(openMarketPlaceCategoryIntent);
-
-            Intent intent = new Intent(this, DetailsActivity.class);
-
-            Bundle extra = new Bundle();
-
-            extra.putInt(DetailsActivity.CLICKEDLISTINGID_TAG, 1);
-
-            intent.putExtras(extra);
-
-            startActivity(intent);
+//        startActivity(intent);
 
     }
 

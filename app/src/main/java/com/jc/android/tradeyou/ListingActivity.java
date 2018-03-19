@@ -10,6 +10,8 @@ import android.view.MenuItem;
 public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener,
         ListingContentFragment.OnFragmentInteractionListener {
 
+    public static final String CLICKEDCATEGORYSUBLIST_TAG = "ClickedCategoryInSubCategoryBList";
+
     public static final String CLICKEDCATEGORYNAME_TAG = "ClickedCategoryInSubCategoryBName";
 
     public static final String CLICKEDCATEGORYNUMBER_TAG = "ClickedCategoryInSubCategoryNumber";

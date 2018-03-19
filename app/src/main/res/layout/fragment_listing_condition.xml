@@ -7,38 +7,111 @@
 
     <LinearLayout
         android:id="@+id/layout_listing_category_condition"
-        android:background="@color/condition_background_color"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/condition_background_color"
         android:orientation="horizontal">
 
-        <RelativeLayout
+
+        <TextView
+            android:id="@+id/tv_listing_category_first_condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/touchable_padding"
             android:layout_marginBottom="@dimen/touchable_padding"
-            android:gravity="center_vertical"
-            android:padding="@dimen/row_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
             android:background="@drawable/category_condition_round_corner"
             android:clickable="true"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:drawablePadding="@dimen/touchable_padding"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:layout_marginStart="@dimen/activity_horizontal_margin">
+            android:gravity="top"
+            android:padding="@dimen/row_padding"
+            android:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/tv_listing_category_first_condition"
-                android:gravity="top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:drawablePadding="@dimen/touchable_padding"
-                android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
-                tools:text="AAAAAA"
-                android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp" />
+        <TextView
+            android:id="@+id/tv_listing_category_second_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/touchable_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
+            android:background="@drawable/category_condition_round_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:drawablePadding="@dimen/touchable_padding"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:focusable="true"
+            android:visibility="gone"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="top"
+            android:padding="@dimen/row_padding"
+            android:textColor="@android:color/white" />
 
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_listing_category_third_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/touchable_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
+            android:background="@drawable/category_condition_round_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:drawablePadding="@dimen/touchable_padding"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:focusable="true"
+            android:visibility="gone"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="top"
+            android:padding="@dimen/row_padding"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_listing_category_forth_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/touchable_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
+            android:background="@drawable/category_condition_round_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:drawablePadding="@dimen/touchable_padding"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:focusable="true"
+            android:visibility="gone"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="top"
+            android:padding="@dimen/row_padding"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_listing_category_fifth_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/touchable_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/touchable_padding"
+            android:background="@drawable/category_condition_round_corner"
+            android:clickable="true"
+            android:visibility="gone"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:drawablePadding="@dimen/touchable_padding"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18dp"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="top"
+            android:padding="@dimen/row_padding"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

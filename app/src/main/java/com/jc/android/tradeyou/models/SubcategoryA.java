@@ -7,9 +7,11 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class SubcategoryA implements Parcelable{
+public class SubcategoryA implements Serializable{
 
     @SerializedName("Name")
     @Expose
@@ -25,7 +27,7 @@ public class SubcategoryA implements Parcelable{
 
     @SerializedName("Subcategories")
     @Expose
-    private List<SubcategoryB> Subcategories = null;
+    private ArrayList<SubcategoryB> Subcategories = null;
 
     @SerializedName("Count")
     @Expose
@@ -47,66 +49,7 @@ public class SubcategoryA implements Parcelable{
     @Expose
     private AreaOfBusiness areaOfBusiness;
 
-    protected SubcategoryA(Parcel in) {
-        name = in.readString();
-        identifier_number = in.readString();
-        path = in.readString();
-        if (in.readByte() == 0) {
-            numberOfItem = null;
-        } else {
-            numberOfItem = in.readInt();
-        }
-        byte tmpIssRestricted = in.readByte();
-        issRestricted = tmpIssRestricted == 0 ? null : tmpIssRestricted == 1;
-        byte tmpHasLegalNotice = in.readByte();
-        hasLegalNotice = tmpHasLegalNotice == 0 ? null : tmpHasLegalNotice == 1;
-        byte tmpHasClassifieds = in.readByte();
-        hasClassifieds = tmpHasClassifieds == 0 ? null : tmpHasClassifieds == 1;
-        byte tmpCanHaveSecondCategory = in.readByte();
-        canHaveSecondCategory = tmpCanHaveSecondCategory == 0 ? null : tmpCanHaveSecondCategory == 1;
-        byte tmpCanBeSecondCategory = in.readByte();
-        canBeSecondCategory = tmpCanBeSecondCategory == 0 ? null : tmpCanBeSecondCategory == 1;
-        byte tmpIsLeaf = in.readByte();
-        isLeaf = tmpIsLeaf == 0 ? null : tmpIsLeaf == 1;
-    }
-
-    public static final Creator<SubcategoryA> CREATOR = new Creator<SubcategoryA>() {
-        @Override
-        public SubcategoryA createFromParcel(Parcel in) {
-            return new SubcategoryA(in);
-        }
-
-        @Override
-        public SubcategoryA[] newArray(int size) {
-            return new SubcategoryA[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(identifier_number);
-        dest.writeString(path);
-        if (numberOfItem == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(numberOfItem);
-        }
-        dest.writeByte((byte) (issRestricted == null ? 0 : issRestricted ? 1 : 2));
-        dest.writeByte((byte) (hasLegalNotice == null ? 0 : hasLegalNotice ? 1 : 2));
-        dest.writeByte((byte) (hasClassifieds == null ? 0 : hasClassifieds ? 1 : 2));
-        dest.writeByte((byte) (canHaveSecondCategory == null ? 0 : canHaveSecondCategory ? 1 : 2));
-        dest.writeByte((byte) (canBeSecondCategory == null ? 0 : canBeSecondCategory ? 1 : 2));
-        dest.writeByte((byte) (isLeaf == null ? 0 : isLeaf ? 1 : 2));
-    }
-
-    public enum AreaOfBusiness {
+    private enum AreaOfBusiness {
         @SerializedName("0")
         ALL,
         @SerializedName("1")
@@ -133,6 +76,29 @@ public class SubcategoryA implements Parcelable{
     @Expose
     private Boolean isLeaf;
 
+    protected SubcategoryA(Parcel in) {
+        name = in.readString();
+        identifier_number = in.readString();
+        path = in.readString();
+        if (in.readByte() == 0) {
+            numberOfItem = null;
+        } else {
+            numberOfItem = in.readInt();
+        }
+        byte tmpIssRestricted = in.readByte();
+        issRestricted = tmpIssRestricted == 0 ? null : tmpIssRestricted == 1;
+        byte tmpHasLegalNotice = in.readByte();
+        hasLegalNotice = tmpHasLegalNotice == 0 ? null : tmpHasLegalNotice == 1;
+        byte tmpHasClassifieds = in.readByte();
+        hasClassifieds = tmpHasClassifieds == 0 ? null : tmpHasClassifieds == 1;
+        byte tmpCanHaveSecondCategory = in.readByte();
+        canHaveSecondCategory = tmpCanHaveSecondCategory == 0 ? null : tmpCanHaveSecondCategory == 1;
+        byte tmpCanBeSecondCategory = in.readByte();
+        canBeSecondCategory = tmpCanBeSecondCategory == 0 ? null : tmpCanBeSecondCategory == 1;
+        byte tmpIsLeaf = in.readByte();
+        isLeaf = tmpIsLeaf == 0 ? null : tmpIsLeaf == 1;
+    }
+
 
     public String getName() {
         return name;
@@ -158,11 +124,11 @@ public class SubcategoryA implements Parcelable{
         this.path = path;
     }
 
-    public List<SubcategoryB> getSubcategories() {
+    public ArrayList<SubcategoryB> getSubcategories() {
         return Subcategories;
     }
 
-    public void setSubcategories(List<SubcategoryB> subcategories) {
+    public void setSubcategories(ArrayList<SubcategoryB> subcategories) {
         Subcategories = subcategories;
     }
 

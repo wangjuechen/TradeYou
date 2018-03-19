@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         getListingIdFromListingActivity();
 
+        if(getSupportActionBar()!=null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         tv_listing_id = findViewById(R.id.tv_item_listingId);
 
         tv_listing_title = findViewById(R.id.tv_item_listingTitle_detail_page);
@@ -55,6 +58,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void loadTradeMeApi() {
+
         mTradeMeApI = ServiceGenerator.createService(TradeMeApI.class,
                 " OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");
 
@@ -74,7 +78,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     int statusCode = response.code();
 
-                    Toast.makeText(getApplicationContext(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Details fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
 
                     APIError error = ErrorUtils.parseError(response);
 
@@ -89,12 +93,22 @@ public class DetailsActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Details fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
                     Log.d("DetailActivity", "Error: " + t.getMessage());
 
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void getListingIdFromListingActivity() {
