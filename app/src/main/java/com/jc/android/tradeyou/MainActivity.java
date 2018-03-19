@@ -11,23 +11,13 @@ import com.jc.android.tradeyou.api.ApiUtils;
 import com.jc.android.tradeyou.api.TradeMeApI;
 import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
-
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private final String CONSUMER_KEY = "A1AC63F0332A131A78FAC304D007E7D1";
-    private final String CONSUMER_SECRET = "EC7F18B17A062962C6930A8AE88B16C7";
-
-    private String credentials = Credentials.basic(CONSUMER_KEY, CONSUMER_SECRET);
 
     private TradeMeApI tradeMeApi;
 
@@ -116,14 +106,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openJobsListingActivity() {
 
+        Intent openJobListingActivityIntent = new Intent(this, ListingActivity.class);
+
+        Bundle extra = new Bundle();
+
+        SubcategoryA jobSubcategoryList = mMarketPlaceCategoryList.get(2);
+
+        String name = jobSubcategoryList.getName();
+
+        String number = jobSubcategoryList.getIdentifier_number();
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+
+        openJobListingActivityIntent.putExtras(extra);
+
+        startActivity(openJobListingActivityIntent);
+
     }
 
     private void openMotorsListingActivity() {
 
+        Intent openMotorsListingActivityIntent = new Intent(this, ListingActivity.class);
+
+        Bundle extra = new Bundle();
+
+        SubcategoryA motorsSubcategoryList = mMarketPlaceCategoryList.get(0);
+
+        String name = motorsSubcategoryList.getName();
+
+        String number = motorsSubcategoryList.getIdentifier_number();
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+
+        openMotorsListingActivityIntent.putExtras(extra);
+
+        startActivity(openMotorsListingActivityIntent);
     }
 
     private void openPropertyListingsActivity() {
 
+        Intent openPropertyListingActivityIntent = new Intent(this, ListingActivity.class);
+
+        Bundle extra = new Bundle();
+
+        SubcategoryA propertySubcategoryList = mMarketPlaceCategoryList.get(1);
+
+        String name = propertySubcategoryList.getName();
+
+        String number = propertySubcategoryList.getIdentifier_number();
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+
+        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+
+        openPropertyListingActivityIntent.putExtras(extra);
+
+        startActivity(openPropertyListingActivityIntent);
     }
 
 }

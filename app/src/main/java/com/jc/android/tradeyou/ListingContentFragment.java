@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.jc.android.tradeyou.adapter.ItemListingAdapter;
 import com.jc.android.tradeyou.api.ApiUtils;
+import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.ItemDetails;
 import com.jc.android.tradeyou.models.Listing;
 
@@ -49,6 +49,8 @@ public class ListingContentFragment extends Fragment {
     private ItemListingAdapter mItemListingAdapter;
 
     private List<ItemDetails> mItemDetailsList = new ArrayList<>();
+
+    private RecyclerView mListingRecyclerView;
 
     public ListingContentFragment() {
         // Required empty public constructor
@@ -86,24 +88,17 @@ public class ListingContentFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_listing, container, false);
 
-        RecyclerView listingRecyclerView = rootView.findViewById(R.id.rv_itemsListing);
-
-        mItemListingAdapter = new ItemListingAdapter(getActivity(), mItemDetailsList);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-
-        listingRecyclerView.setLayoutManager(layoutManager);
-
-        listingRecyclerView.setHasFixedSize(true);
-
-        listingRecyclerView.setAdapter(mItemListingAdapter);
+        mListingRecyclerView = rootView.findViewById(R.id.rv_itemsListing);
 
         return rootView;
     }
 
     private void loadTradeMeAPI() {
 
-        tradeMeApi = ApiUtils.getTradeMeApi();//TODO: here need OAuth to access
+        String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
+        String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
+
+        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class," OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");//TODO: here need OAuth to access
 
         tradeMeApi.getListing(mSelectedSubcategoryBNumber).enqueue(new Callback<Listing>() {
 
@@ -113,7 +108,17 @@ public class ListingContentFragment extends Fragment {
 
                     mItemDetailsList = response.body().getItemDetailsList();
 
-                    Log.d("ListingContentFragment", "posts loaded from API");
+                    mItemListingAdapter = new ItemListingAdapter(getActivity(), mItemDetailsList);
+
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
+                    mListingRecyclerView.setLayoutManager(layoutManager);
+
+                    mListingRecyclerView.setHasFixedSize(true);
+
+                    mListingRecyclerView.setAdapter(mItemListingAdapter);
+
+                    Log.d("ListingContentFragment", "Listing loaded from API");
 
                 } else {
                     int statusCode = response.code();
@@ -129,7 +134,7 @@ public class ListingContentFragment extends Fragment {
                     Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
                     // logging probably not necessary
                 } else {
-                    Toast.makeText(getActivity(), "Data fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
                     Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
 
                 }

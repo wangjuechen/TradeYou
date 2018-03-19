@@ -10,14 +10,14 @@ public class Listing {
 
     @SerializedName("TotalCount")
     @Expose
-    private int totalCount;
+    private Integer totalCount;
 
     @SerializedName("List")
     @Expose
     private List<ItemDetails> itemDetailsList = null;
 
 
-    public int getTotalCount() {
+    public Integer getTotalCount() {
         return totalCount;
     }
 
