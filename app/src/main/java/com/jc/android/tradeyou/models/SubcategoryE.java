@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class SubcategoryE implements Serializable{
+public class SubcategoryE {
 
     @SerializedName("Name")
     @Expose

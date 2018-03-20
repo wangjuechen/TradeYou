@@ -12,8 +12,8 @@ import retrofit2.http.Query;
 
 public interface TradeMeApI {
 
-    @GET("v1/Categories/0.json")
-    Call<Category> getCategory();
+    @GET("v1/Categories/{number}.json")
+    Call<Category> getCategory(@Path("number") String number, @Query("depth") Integer depth);
 
     @GET("v1/Search/General.json")
     Call<Listing> getListing(@Query("category") String category);

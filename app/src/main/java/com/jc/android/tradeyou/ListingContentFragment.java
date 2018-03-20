@@ -3,7 +3,10 @@ package com.jc.android.tradeyou;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,9 +34,6 @@ import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ListingContentFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link ListingContentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -41,17 +41,17 @@ public class ListingContentFragment extends Fragment {
 
     private static final String NUMBER_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
 
-    private String mSelectedSubcategoryBNumber;
+    private static final String CATEGORY_NUMBER = "category_number";
 
     private TradeMeApI tradeMeApi;
-
-    private OnFragmentInteractionListener mListener;
 
     private ItemListingAdapter mItemListingAdapter;
 
     private List<ItemDetailsFromListing> mItemDetailsList = new ArrayList<>();
 
     private RecyclerView mListingRecyclerView;
+
+    private String mCategoryNumber;
 
     public ListingContentFragment() {
         // Required empty public constructor
@@ -60,11 +60,9 @@ public class ListingContentFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      * @param param1 Parameter 1.
      * @return A new instance of fragment ListingContentFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ListingContentFragment newInstance(String param1) {
         ListingContentFragment fragment = new ListingContentFragment();
         Bundle args = new Bundle();
@@ -77,21 +75,30 @@ public class ListingContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
-            mSelectedSubcategoryBNumber = getArguments().getString(NUMBER_TAG);
-
-            loadTradeMeAPI();
+            mCategoryNumber = getArguments().getString(NUMBER_TAG);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(savedInstanceState != null)
+            mCategoryNumber = savedInstanceState.getString(CATEGORY_NUMBER);
+
+        loadTradeMeAPI();
+
         View rootView = inflater.inflate(R.layout.fragment_listing, container, false);
 
         mListingRecyclerView = rootView.findViewById(R.id.rv_itemsListing);
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(CATEGORY_NUMBER, mCategoryNumber);
     }
 
     private void loadTradeMeAPI() {
@@ -102,7 +109,7 @@ public class ListingContentFragment extends Fragment {
         tradeMeApi = ServiceGenerator.createService(TradeMeApI.class,
                 " OAuth oauth_consumer_key=\"A1AC63F0332A131A78FAC304D007E7D1\", oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"EC7F18B17A062962C6930A8AE88B16C7&\"");
 
-        tradeMeApi.getListing(mSelectedSubcategoryBNumber).enqueue(new Callback<Listing>() {
+        tradeMeApi.getListing(mCategoryNumber).enqueue(new Callback<Listing>() {
 
             @Override
             public void onResponse(Call<Listing> call, Response<Listing> response) {
@@ -119,6 +126,10 @@ public class ListingContentFragment extends Fragment {
                     mListingRecyclerView.setHasFixedSize(true);
 
                     mListingRecyclerView.setAdapter(mItemListingAdapter);
+
+                    DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mListingRecyclerView.getContext(),
+                            layoutManager.getOrientation());
+                    mListingRecyclerView.addItemDecoration(mDividerItemDecoration);
 
                     Log.d("ListingContentFragment", "Listing loaded from API");
 
@@ -150,41 +161,9 @@ public class ListingContentFragment extends Fragment {
         });
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void setCategoryNumber(String number){
+        mCategoryNumber = number;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

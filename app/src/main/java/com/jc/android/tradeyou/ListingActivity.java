@@ -1,16 +1,12 @@
 package com.jc.android.tradeyou;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener,
-        ListingContentFragment.OnFragmentInteractionListener {
-
-    public static final String CLICKEDCATEGORYSUBLIST_TAG = "ClickedCategoryInSubCategoryBList";
+public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener {
 
     public static final String CLICKEDCATEGORYNAME_TAG = "ClickedCategoryInSubCategoryBName";
 
@@ -68,8 +64,14 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
+    @Override
+    public void onFragmentInteraction(String categoryNumber) {
+        ListingContentFragment newContentFragment = new ListingContentFragment();
+        newContentFragment.setCategoryNumber(categoryNumber);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.listing_content_fragment_container, newContentFragment)
+                .commit();
     }
 }

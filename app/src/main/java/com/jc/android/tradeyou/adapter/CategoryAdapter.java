@@ -70,27 +70,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         @Override
         public void onClick(View v) {
 
-            ArrayList<SubcategoryB> subcategoryBList = mSubcategoryAList.get(getAdapterPosition()).getSubcategories();
-
             String clickedCategoryName = mSubcategoryAList.get(getAdapterPosition()).getName();
 
             String clickedCategoryNumber = mSubcategoryAList.get(getAdapterPosition()).getIdentifier_number();
 
-            startCategoryListActivity(subcategoryBList, clickedCategoryName, clickedCategoryNumber);
+            startCategoryListActivity(clickedCategoryName, clickedCategoryNumber);
 
             Log.d("CategoryAdapter ", "Clicked Category in subCategory, " + clickedCategoryName + clickedCategoryNumber);
 
         }
 
-        private void startCategoryListActivity(ArrayList<SubcategoryB> CategorySubcategoryList, String CategoryName, String CategoryNumber) {
+        private void startCategoryListActivity( String CategoryName, String CategoryNumber) {
 
             Bundle bundle = new Bundle();
 
             bundle.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, CategoryName);
 
             bundle.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, CategoryNumber);
-
-            bundle.putSerializable(ListingActivity.CLICKEDCATEGORYSUBLIST_TAG, CategorySubcategoryList);
 
             Intent intent = new Intent(mContext, ListingActivity.class);
 

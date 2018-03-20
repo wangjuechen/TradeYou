@@ -5,38 +5,51 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jc.android.tradeyou.api.ServiceGenerator;
+import com.jc.android.tradeyou.api.TradeMeApI;
+import com.jc.android.tradeyou.models.Category;
+import com.jc.android.tradeyou.models.SubcategoryA;
 import com.jc.android.tradeyou.models.SubcategoryB;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.yhq.dialog.core.DialogBuilder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ListingConditionFragment extends Fragment {
 
     private static final String NAME_ARG_TAG = ListingActivity.CLICKEDCATEGORYNAME_TAG;
 
-    private static final String SUBCATEGORY_ARG_TAG = ListingActivity.CLICKEDCATEGORYSUBLIST_TAG;
+    private static final String NUMBER_ARG_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
 
-    private ArrayList<SubcategoryB> mSubcategoryBList = new ArrayList<>();
+    private ArrayList<SubcategoryA> mSubcategoryBList = new ArrayList<>();
 
     private ArrayList<String> mSubcategoryBNameList = new ArrayList<>();
 
-    private String mSelectedSubcategoryBName;
+    private String mSelectedSubcategoryName;
+
+    private String mSelectedSubcategoryNumber;
 
     private Unbinder unbinder;
 
     private OnFragmentInteractionListener mListener;
+
+    private TradeMeApI tradeMeApi;
 
     @BindView(R.id.tv_listing_category_first_condition)
     TextView tv_first_condition;
@@ -68,11 +81,12 @@ public class ListingConditionFragment extends Fragment {
 
         if (getArguments() != null) {
 
-            mSelectedSubcategoryBName = getArguments().getString(NAME_ARG_TAG);
+            mSelectedSubcategoryName = getArguments().getString(NAME_ARG_TAG);
 
-            mSubcategoryBList = (ArrayList<SubcategoryB>) getArguments().getSerializable(SUBCATEGORY_ARG_TAG);
+            mSelectedSubcategoryNumber = getArguments().getString(NUMBER_ARG_TAG);
 
-            fetchSecondCategory();
+            loadTradeMeAPI();
+
         }
     }
 
@@ -83,7 +97,7 @@ public class ListingConditionFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
 
-        tv_first_condition.setText(mSelectedSubcategoryBName);
+        tv_first_condition.setText(mSelectedSubcategoryName);
 
         return rootView;
     }
@@ -104,22 +118,9 @@ public class ListingConditionFragment extends Fragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                mListener.onFragmentInteraction(mSubcategoryBList.get(which).getIdentifier_number());
             }
         }).show();
-    }
-
-    private void fetchSecondCategory() {
-        for (int i = 0; i < mSubcategoryBList.size(); i++) {
-            mSubcategoryBNameList.add(mSubcategoryBList.get(i).getName());
-        }
-    }
-
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -148,6 +149,56 @@ public class ListingConditionFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String categoryNumber);
+    }
+
+
+    private void loadTradeMeAPI() {
+
+        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+
+        tradeMeApi.getCategory(mSelectedSubcategoryNumber,1).enqueue(new Callback<Category>() {
+
+            @Override
+            public void onResponse(Call<Category> call, Response<Category> response) {
+                if (response.isSuccessful()) {
+
+                    mSubcategoryBList = response.body().getSubcategories();
+
+                    fetchSecondCategory();
+
+                    Log.d("SplashActivity", "Loaded from API is complete");
+
+                } else {
+                    int statusCode = response.code();
+
+                    if (statusCode == 500)
+                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+
+                    Log.d("SplashActivity", "Error code: " + statusCode + response.message());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Category> call, Throwable t) {
+                if (t instanceof IOException) {
+                    // IOException is because Internet issue
+                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    //Other cause which mean Object format wrong or API problem
+                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+
+                }
+            }
+        });
+    }
+
+    private void fetchSecondCategory() {
+
+        for (int i = 0; i < mSubcategoryBList.size(); i++) {
+            mSubcategoryBNameList.add(mSubcategoryBList.get(i).getName());
+        }
     }
 }

@@ -53,7 +53,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
        if(intent.getExtras()!=null){
-           mMarketPlaceCategoryList = (ArrayList<SubcategoryA>) intent.getExtras().getSerializable(CATEGORY_LIST_TAG);
+           mMarketPlaceCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_LIST_TAG);
        }
     }
 

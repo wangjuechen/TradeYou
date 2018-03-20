@@ -5,9 +5,9 @@
     android:padding="@dimen/row_padding"
     android:clickable="true"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:foreground="?attr/selectableItemBackground"
+    android:background="@color/condition_background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/iv_item_listingPhoto"

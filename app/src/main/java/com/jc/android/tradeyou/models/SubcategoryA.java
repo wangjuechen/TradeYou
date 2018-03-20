@@ -7,11 +7,10 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class SubcategoryA implements Serializable{
+
+public class SubcategoryA implements Parcelable{
 
     @SerializedName("Name")
     @Expose
@@ -27,7 +26,7 @@ public class SubcategoryA implements Serializable{
 
     @SerializedName("Subcategories")
     @Expose
-    private ArrayList<SubcategoryB> Subcategories = null;
+    private ArrayList<SubcategoryB> Subcategories = new ArrayList<SubcategoryB>();
 
     @SerializedName("Count")
     @Expose
@@ -48,6 +47,43 @@ public class SubcategoryA implements Serializable{
     @SerializedName("AreaOfBusiness")
     @Expose
     private AreaOfBusiness areaOfBusiness;
+
+    public static final Creator<SubcategoryA> CREATOR = new
+    Creator<SubcategoryA>() {
+
+        public SubcategoryA createFromParcel(Parcel in) {
+            return new SubcategoryA(in);
+        }
+
+        public SubcategoryA[] newArray(int size) {
+            return new SubcategoryA[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(identifier_number);
+        parcel.writeString(path);
+        parcel.writeList(Subcategories);
+        if (numberOfItem == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(numberOfItem);
+        }
+        parcel.writeByte((byte) (issRestricted == null ? 0 : issRestricted ? 1 : 2));
+        parcel.writeByte((byte) (hasLegalNotice == null ? 0 : hasLegalNotice ? 1 : 2));
+        parcel.writeByte((byte) (hasClassifieds == null ? 0 : hasClassifieds ? 1 : 2));
+        parcel.writeByte((byte) (canHaveSecondCategory == null ? 0 : canHaveSecondCategory ? 1 : 2));
+        parcel.writeByte((byte) (canBeSecondCategory == null ? 0 : canBeSecondCategory ? 1 : 2));
+        parcel.writeByte((byte) (isLeaf == null ? 0 : isLeaf ? 1 : 2));
+    }
 
     private enum AreaOfBusiness {
         @SerializedName("0")
@@ -76,10 +112,11 @@ public class SubcategoryA implements Serializable{
     @Expose
     private Boolean isLeaf;
 
-    protected SubcategoryA(Parcel in) {
+    public SubcategoryA(Parcel in) {
         name = in.readString();
         identifier_number = in.readString();
         path = in.readString();
+        in.readList(Subcategories,SubcategoryB.class.getClassLoader());
         if (in.readByte() == 0) {
             numberOfItem = null;
         } else {

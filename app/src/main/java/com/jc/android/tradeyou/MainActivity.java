@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
 import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -59,48 +62,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void loadTradeMeAPI() {
-
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
-
-        tradeMeApi.getCategory().enqueue(new Callback<Category>() {
-
-            @Override
-            public void onResponse(Call<Category> call, Response<Category> response) {
-                if (response.isSuccessful()) {
-
-                    mAllCategoryList = response.body().getSubcategories();
-
-                    Log.d("MainActivity", "Loaded from API is complete");
-
-                } else {
-                    int statusCode = response.code();
-
-                    Log.d("MainActivity", "Error code: " + statusCode + response.message());
-                    // handle request errors depending on status code
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-                if (t instanceof IOException) {
-                    Toast.makeText(MainActivity.this, "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
-                    // logging probably not necessary
-                } else {
-                    Toast.makeText(MainActivity.this, "Data fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
-
-                }
-            }
-        });
-    }
-
     private void getCategoryListFromSplashActivity() {
 
         Intent intent = getIntent();
 
+        Gson gson = new Gson();
+
+        Type type = new TypeToken<ArrayList<SubcategoryA>>() {}.getType();
+
         if (intent.getExtras() != null) {
-            mAllCategoryList = (ArrayList<SubcategoryA>) intent.getExtras().getSerializable(CATEGORY_NAME_TAG);
+            mAllCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_NAME_TAG);
         }
 
     }
@@ -111,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        extra.putSerializable(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
 
         openMarketPlaceCategoryIntent.putExtras(extra);
 

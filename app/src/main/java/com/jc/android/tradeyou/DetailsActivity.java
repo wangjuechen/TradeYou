@@ -51,7 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         iv_listing_picture = findViewById(R.id.iv_itemImage_detail_page);
 
-        tv_listing_id.setText(getResources().getString(R.string.listing_id_detail_page, mListingId));
+        tv_listing_id.setText(String.valueOf(mListingId));
 
         loadTradeMeApi();
 
@@ -67,13 +67,13 @@ public class DetailsActivity extends AppCompatActivity {
             public void onResponse(Call<ItemDetailsFromIDPath> call, Response<ItemDetailsFromIDPath> response) {
                 if (response.isSuccessful()) {
                     String listingTitle = response.body().getItemTitle();
-                    //String listingPicUrl = response.body().getItemPictureUrlCollections().get(0).get(0);
+                    String listingPicUrl = response.body().getItemPictureUrlCollections().get(0).getUrlList().getLargeUrl();
 
-                    tv_listing_title.setText(getResources().getString(R.string.listing_title_detail_page, listingTitle));
+                    tv_listing_title.setText(listingTitle);
 
-//                    Glide.with(getApplicationContext()).
-//                            load(listingPicUrl).
-//                            into(iv_listing_picture);
+                    Glide.with(getApplicationContext()).
+                            load(listingPicUrl).
+                            into(iv_listing_picture);
                 } else {
 
                     int statusCode = response.code();
