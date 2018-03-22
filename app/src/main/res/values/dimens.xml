@@ -10,4 +10,6 @@
     <dimen name="home_subtitle_font_size">12sp</dimen>
 
     <dimen name="category_name_left_margin">72dp</dimen>
+
+    <dimen name="no_listing_pic_vertical_large_margin">24dp</dimen>
 </resources>

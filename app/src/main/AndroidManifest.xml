@@ -21,7 +21,10 @@
         <activity
             android:name=".ListingActivity"
             android:label="@string/title_home_browse" />
-        <activity android:name=".DetailsActivity" />
+
+        <activity android:name=".DetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

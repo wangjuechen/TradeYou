@@ -13,12 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.jc.android.tradeyou.DetailsActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.models.ItemDetailsFromListing;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.ItemListingAdapterViewHolder> {
 
@@ -48,41 +52,46 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
         holder.tv_listingTitle.setText(mItemDetailsListing.get(position).getItemTitle());
 
-        Glide.with(mContext).load(mItemDetailsListing.get(position).getItemPictureUrl()).into(holder.iv_listingImage);
+        Glide.with(mContext)
+                .load(mItemDetailsListing.get(position).getItemPictureUrl())
+                .apply(new RequestOptions()
+                .placeholder(R.drawable.placeholder))
+                .into(holder.iv_listingImage);
     }
 
     @Override
     public int getItemCount() {
         int displayedCount = 20;
-        return (mItemDetailsListing != null ? displayedCount : 0);
+        return (mItemDetailsListing.size() < 20 ? mItemDetailsListing.size() : displayedCount);
     }
 
     public class ItemListingAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private TextView tv_listingTitle;
 
-        private ImageView iv_listingImage;
+        @BindView(R.id.tv_item_listingTitle)
+        TextView tv_listingTitle;
+
+        @BindView(R.id.iv_item_listingPhoto)
+        ImageView iv_listingImage;
 
 
         public ItemListingAdapterViewHolder(View itemView) {
 
             super(itemView);
 
+            ButterKnife.bind(this, itemView);
+
             itemView.setOnClickListener(this);
-
-            this.tv_listingTitle = itemView.findViewById(R.id.tv_item_listingTitle);
-
-            this.iv_listingImage = itemView.findViewById(R.id.iv_item_listingPhoto);
         }
 
         @Override
         public void onClick(View view) {
 
-            int clickedListingid = mItemDetailsListing.get(getAdapterPosition()).getItemListingId();
+            int clickedListingId = mItemDetailsListing.get(getAdapterPosition()).getItemListingId();
 
-            startDetailsActivity(clickedListingid);
+            startDetailsActivity(clickedListingId);
 
-            Log.d("ItemListingAdapter: ", "Clicked listing Id, " +  clickedListingid);
+            Log.d("ItemListingAdapter: ", "Clicked listing Id, " +  clickedListingId);
 
         }
 

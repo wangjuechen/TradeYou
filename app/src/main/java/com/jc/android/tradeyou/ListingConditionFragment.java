@@ -2,7 +2,6 @@ package com.jc.android.tradeyou;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,7 +15,6 @@ import com.jc.android.tradeyou.api.ServiceGenerator;
 import com.jc.android.tradeyou.api.TradeMeApI;
 import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
-import com.jc.android.tradeyou.models.SubcategoryB;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +37,11 @@ public class ListingConditionFragment extends Fragment {
 
     private ArrayList<SubcategoryA> mSubcategoryBList = new ArrayList<>();
 
+    private ArrayList<SubcategoryA> mSubcategoryCList = new ArrayList<>();
+
     private ArrayList<String> mSubcategoryBNameList = new ArrayList<>();
+
+    private ArrayList<String> mSubcategoryCNameList = new ArrayList<>();
 
     private String mSelectedSubcategoryName;
 
@@ -85,7 +87,7 @@ public class ListingConditionFragment extends Fragment {
 
             mSelectedSubcategoryNumber = getArguments().getString(NUMBER_ARG_TAG);
 
-            loadTradeMeAPI();
+            loadSecondSubCategoryAPI(mSelectedSubcategoryNumber);
 
         }
     }
@@ -111,14 +113,39 @@ public class ListingConditionFragment extends Fragment {
 
                     @Override
                     public void onChoiceItem(int index, Object item) {
-                        tv_second_condition.setText(mSubcategoryBNameList.get(index));
-                        tv_second_condition.setVisibility(View.VISIBLE);
+
+                        loadThirdSubcategoryAPI(mSubcategoryBList.get(index).getIdentifier_number(), index);
+
                     }
                 }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 mListener.onFragmentInteraction(mSubcategoryBList.get(which).getIdentifier_number());
+
+            }
+        }).show();
+    }
+
+
+    @OnClick(R.id.tv_listing_category_second_condition)
+    public void chooseThirdCategory(View view) {
+
+        DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryCNameList)
+                .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
+                .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
+
+                    @Override
+                    public void onChoiceItem(int index, Object item) {
+                        tv_third_condition.setText(mSubcategoryCNameList.get(index));
+                        tv_third_condition.setVisibility(View.VISIBLE);
+                    }
+                }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mListener.onFragmentInteraction(mSubcategoryCList.get(which).getIdentifier_number());
             }
         }).show();
     }
@@ -153,11 +180,11 @@ public class ListingConditionFragment extends Fragment {
     }
 
 
-    private void loadTradeMeAPI() {
+    private void loadSecondSubCategoryAPI(String queryCategory) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
 
-        tradeMeApi.getCategory(mSelectedSubcategoryNumber,1).enqueue(new Callback<Category>() {
+        tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
 
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
@@ -165,9 +192,11 @@ public class ListingConditionFragment extends Fragment {
 
                     mSubcategoryBList = response.body().getSubcategories();
 
-                    fetchSecondCategory();
+                    if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
+                        fetchSecondCategory();
+                    }
 
-                    Log.d("SplashActivity", "Loaded from API is complete");
+                    Log.d("ListConditionFragment", "Loaded from SecondSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -175,7 +204,7 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
 
-                    Log.d("SplashActivity", "Error code: " + statusCode + response.message());
+                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -195,10 +224,65 @@ public class ListingConditionFragment extends Fragment {
         });
     }
 
-    private void fetchSecondCategory() {
+    private void loadThirdSubcategoryAPI(String queryCategory, final int index) {
 
+        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+
+        tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
+
+            @Override
+            public void onResponse(Call<Category> call, Response<Category> response) {
+                if (response.isSuccessful()) {
+
+                    mSubcategoryCList = response.body().getSubcategories();
+
+                    if (mSubcategoryCList != null && mSubcategoryCList.size() > 0)
+                        fetchThirdCategory();
+                    tv_second_condition.setText(mSubcategoryBNameList.get(index));
+                    tv_second_condition.setVisibility(View.VISIBLE);
+                    tv_third_condition.setVisibility(View.GONE);
+
+
+                    Log.d("ListConditionFragment", "Loaded from ThirdSubCategoryAPI is complete");
+
+                } else {
+                    int statusCode = response.code();
+
+                    if (statusCode == 500)
+                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+
+                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Category> call, Throwable t) {
+                if (t instanceof IOException) {
+                    // IOException is because Internet issue
+                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    //Other cause which mean Object format wrong or API problem
+                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+
+                }
+            }
+        });
+    }
+
+
+    private void fetchSecondCategory() {
+        mSubcategoryBNameList.clear();
         for (int i = 0; i < mSubcategoryBList.size(); i++) {
             mSubcategoryBNameList.add(mSubcategoryBList.get(i).getName());
+        }
+    }
+
+    private void fetchThirdCategory() {
+        mSubcategoryCNameList.clear();
+        for (int i = 0; i < mSubcategoryCList.size(); i++) {
+            mSubcategoryCNameList.add(mSubcategoryCList.get(i).getName());
         }
     }
 }

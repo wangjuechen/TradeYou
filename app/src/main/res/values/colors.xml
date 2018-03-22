@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFC107</color>
-    <color name="colorPrimaryDark">#FFA000</color>
+    <color name="colorPrimary">#FEB952</color>
+    <color name="colorPrimaryDark">#FBAF3E</color>
     <color name="colorAccent">#FF9800</color>
-    <color name="colorText">#000000</color>
+    <color name="colorText">#2f2f2f</color>
+    <color name="colorTextSecondary">#857a6f</color>
 
     <color name="click_effect_tipple_color">#10000000</color>
 
-    <color name="condition_background_color">#FFECB3</color>
+    <color name="condition_background_color">#20FFECB3</color>
+
+    <color name="colorBackground">#FFFFFF</color>
+
+    <color name="divider_color">#30976110</color>
+
+    <color name="detail_image_foreground">#20000000</color>
 </resources>

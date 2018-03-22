@@ -18,6 +18,9 @@ import com.jc.android.tradeyou.models.SubcategoryB;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterViewHolder> {
 
     private final Context mContext;
@@ -46,6 +49,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.tv_categoryName.setText(mSubcategoryAList.get(position).getName());
 
+
+
     }
 
 
@@ -56,14 +61,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public class CategoryAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView tv_categoryName;
+        @BindView(R.id.tv_category_name)
+        TextView tv_categoryName;
 
         public CategoryAdapterViewHolder(View itemView) {
             super(itemView);
 
             itemView.setOnClickListener(this);
 
-            this.tv_categoryName = itemView.findViewById(R.id.tv_category_name);
+            ButterKnife.bind(this, itemView);
 
         }
 

@@ -24,8 +24,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TradeMeApI tradeMeApi;
-
     private ArrayList<SubcategoryA> mAllCategoryList = new ArrayList<>();
 
     public static final String CATEGORY_NAME_TAG = "Category_name_tag_mainactivity";
@@ -35,10 +33,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //loadTradeMeAPI();
         getCategoryListFromSplashActivity();
-    }
 
+        if(getSupportActionBar()!=null )
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().hide();
+    }
 
     @Override
     public void onClick(View v) {
@@ -66,10 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = getIntent();
 
-        Gson gson = new Gson();
-
-        Type type = new TypeToken<ArrayList<SubcategoryA>>() {}.getType();
-
         if (intent.getExtras() != null) {
             mAllCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_NAME_TAG);
         }
@@ -87,16 +83,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         openMarketPlaceCategoryIntent.putExtras(extra);
 
         startActivity(openMarketPlaceCategoryIntent);
-
-//        Intent intent = new Intent(this, DetailsActivity.class);
-//
-//        Bundle extra = new Bundle();
-//
-//        extra.putInt(DetailsActivity.CLICKEDLISTINGID_TAG, 1);
-//
-//        intent.putExtras(extra);
-//
-//        startActivity(intent);
 
     }
 

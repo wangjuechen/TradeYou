@@ -9,6 +9,10 @@
     android:background="?attr/selectableItemBackground">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="@dimen/category_name_left_margin"
         android:layout_marginStart="@dimen/category_name_left_margin"

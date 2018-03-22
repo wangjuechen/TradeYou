@@ -19,7 +19,10 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listing);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setElevation(0);
+        }
 
         if (savedInstanceState == null) {
 

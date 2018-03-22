@@ -16,7 +16,7 @@ public interface TradeMeApI {
     Call<Category> getCategory(@Path("number") String number, @Query("depth") Integer depth);
 
     @GET("v1/Search/General.json")
-    Call<Listing> getListing(@Query("category") String category);
+    Call<Listing> getListing(@Query("category") String category, @Query("photo_size") String photoSize);
 
     @GET("v1/Listings/{Id}.json")
     Call<ItemDetailsFromIDPath> getItemDetailsFromID(@Path("Id") String listingId);

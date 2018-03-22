@@ -19,4 +19,6 @@
     <string name="listing_id_detail_page">Listing ID: %d</string>
     <string name="listing_title_detail_page">Listing title: %s</string>
 
+    <string name="noData_message">Oops! No results found.</string>
+
 </resources>
