@@ -25,7 +25,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context mContext;
     private List<SubcategoryA> mSubcategoryAList = new ArrayList<>();
     private final int mMarketPlaceSubcategoryStartIndex = 3;
-    private String lastRowCategoryName;
 
     public CategoryAdapter(Context context, List<SubcategoryA> CategoryList) {
         this.mContext = context;
@@ -49,6 +48,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.tv_categoryName.setText(mSubcategoryAList.get(holder.getAdapterPosition()).getName());
 
+        displayAlphabet(holder);
+
+    }
+
+    private void displayAlphabet(CategoryAdapterViewHolder holder) {
+
         holder.tv_alphabet.setText(mSubcategoryAList.get(holder.getAdapterPosition()).getName().substring(0, 1));
 
         if (holder.getAdapterPosition() > 0) {
@@ -59,7 +64,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             }
         }
-
     }
 
     @Override
