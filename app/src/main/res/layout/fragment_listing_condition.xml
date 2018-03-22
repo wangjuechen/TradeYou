@@ -26,19 +26,19 @@
             android:clickable="true"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_white_18px"
             android:drawableRight="@drawable/ic_keyboard_arrow_right_white_18px"
-            android:drawablePadding="@dimen/touchable_padding"
             android:focusable="true"
+            android:drawablePadding="@dimen/row_padding"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/row_padding"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
-            android:paddingEnd="@dimen/row_padding"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingStart="@dimen/activity_horizontal_margin" />
 
         <TextView
@@ -60,12 +60,12 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/row_padding"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
-            android:paddingEnd="@dimen/row_padding"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:visibility="gone" />
 
@@ -88,12 +88,12 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/row_padding"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
-            android:paddingEnd="@dimen/row_padding"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:visibility="gone" />
 
@@ -116,12 +116,12 @@
             android:textStyle="bold"
             android:maxLines="1"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/row_padding"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
-            android:paddingEnd="@dimen/row_padding"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:visibility="gone" />
 
@@ -149,7 +149,7 @@
             android:paddingBottom="4dp"
             android:textSize="14sp"
             android:textColor="@color/colorPrimary"
-            android:paddingEnd="@dimen/row_padding"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:visibility="gone" />
 

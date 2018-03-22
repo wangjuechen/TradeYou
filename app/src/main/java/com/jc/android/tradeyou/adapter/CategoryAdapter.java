@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.jc.android.tradeyou.ListingActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.models.SubcategoryA;
-import com.jc.android.tradeyou.models.SubcategoryB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +22,10 @@ import butterknife.ButterKnife;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterViewHolder> {
 
-    private final Context mContext;
+    private Context mContext;
     private List<SubcategoryA> mSubcategoryAList = new ArrayList<>();
-    private int mMarketPlaceSubcategoryStartIndex = 3;
+    private final int mMarketPlaceSubcategoryStartIndex = 3;
+    private String lastRowCategoryName;
 
     public CategoryAdapter(Context context, List<SubcategoryA> CategoryList) {
         this.mContext = context;
@@ -47,12 +47,25 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(CategoryAdapterViewHolder holder, int position) {
 
-        holder.tv_categoryName.setText(mSubcategoryAList.get(position).getName());
+        holder.tv_categoryName.setText(mSubcategoryAList.get(holder.getAdapterPosition()).getName());
 
+        holder.tv_alphabet.setText(mSubcategoryAList.get(holder.getAdapterPosition()).getName().substring(0, 1));
 
+        if (holder.getAdapterPosition() > 0) {
+
+            if (mSubcategoryAList.get(holder.getAdapterPosition()).getName().substring(0, 1).equals(mSubcategoryAList.get(holder.getAdapterPosition() - 1).getName().substring(0, 1))) {
+
+                holder.tv_alphabet.setVisibility(View.INVISIBLE);
+
+            }
+        }
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override
     public int getItemCount() {
@@ -63,6 +76,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         @BindView(R.id.tv_category_name)
         TextView tv_categoryName;
+
+        @BindView(R.id.tv_alphabet)
+        TextView tv_alphabet;
 
         public CategoryAdapterViewHolder(View itemView) {
             super(itemView);
@@ -86,7 +102,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         }
 
-        private void startCategoryListActivity( String CategoryName, String CategoryNumber) {
+        private void startCategoryListActivity(String CategoryName, String CategoryNumber) {
 
             Bundle bundle = new Bundle();
 
