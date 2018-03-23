@@ -20,5 +20,19 @@
     <string name="listing_title_detail_page">Listing title: %s</string>
 
     <string name="noData_message">Oops! No results found.</string>
+    <string name="nav_login_title">Welcome to</string>
+    <string name="nav_login_subtitle">Trade You</string>
+    <string name="nav_notification_title">Notification</string>
+    <string name="nav_setting_title">Setting</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="error_server_issue_toast">Ops :( Please try again later</string>
+    <string name="error_internet_issue_toast">Internet is disconnected :( Check internet connection</string>
+    <string name="error_other_issue_toast">Listing fetched failed :( Please try again later</string>
+
+    <string name="listing_no_more">No more listings</string>
+    <string name="content_desciption_main_banner_img">banner_pic</string>
+    <string name="content_description_main_drawerLayout_toggle">drawerLayout_toggle</string>
 
 </resources>

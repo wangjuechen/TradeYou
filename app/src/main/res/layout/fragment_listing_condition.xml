@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/row_padding"
     android:paddingLeft="@dimen/row_padding"
+    android:id="@+id/scrollView_category_condition"
     android:scrollbars="none"
     android:orientation="horizontal"
     tools:context="com.jc.android.tradeyou.ListingConditionFragment">

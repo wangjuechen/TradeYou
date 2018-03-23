@@ -131,7 +131,7 @@ public class DetailsActivity extends AppCompatActivity {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getApplicationContext(), "Ops :( Please try again later", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     APIError error = ErrorUtils.parseError(response);
 

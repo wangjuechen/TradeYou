@@ -58,6 +58,10 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
                 .placeholder(R.drawable.placeholder))
                 .into(holder.iv_listingImage);
     }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     @Override
     public int getItemCount() {

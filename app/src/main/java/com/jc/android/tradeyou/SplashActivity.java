@@ -28,6 +28,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private TradeMeApI tradeMeApi;
 
+    private final String allCategoryQueryNumber = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
 
-        tradeMeApi.getCategory("0",1).enqueue(new Callback<Category>() {
+        tradeMeApi.getCategory(allCategoryQueryNumber,1).enqueue(new Callback<Category>() {
 
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
@@ -71,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(SplashActivity.this, "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SplashActivity.this, getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("SplashActivity", "Error code: " + statusCode + response.message());
 
@@ -82,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onFailure(Call<Category> call, Throwable t) {
                 if (t instanceof IOException) {
                     // IOException is because Internet issue
-                    Toast.makeText(SplashActivity.this, "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SplashActivity.this, getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
 
                 } else {
 

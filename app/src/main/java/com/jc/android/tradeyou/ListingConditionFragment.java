@@ -3,11 +3,14 @@ package com.jc.android.tradeyou;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +21,6 @@ import com.jc.android.tradeyou.models.SubcategoryA;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +74,9 @@ public class ListingConditionFragment extends Fragment {
     TextView tv_forth_condition;
     @BindView(R.id.tv_listing_category_fifth_condition)
     TextView tv_fifth_condition;
+    @BindView(R.id.scrollView_category_condition)
+    HorizontalScrollView scrollView_category_condition;
+
 
 
     public ListingConditionFragment() {
@@ -114,7 +119,7 @@ public class ListingConditionFragment extends Fragment {
     }
 
     @OnClick(R.id.tv_listing_category_first_condition)
-    public void chooseSecondCategory(View view) {
+    public void chooseSecondCategory() {
         if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryBNameList)
                     .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
@@ -138,9 +143,8 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-
     @OnClick(R.id.tv_listing_category_second_condition)
-    public void chooseThirdCategory(View view) {
+    public void chooseThirdCategory() {
         if (mSubcategoryCList != null && mSubcategoryCList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryCNameList)
                     .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
@@ -230,6 +234,11 @@ public class ListingConditionFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(String categoryNumber);
@@ -245,7 +254,8 @@ public class ListingConditionFragment extends Fragment {
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) mSubcategoryBList.clear();
+                    if (mSubcategoryBList != null && mSubcategoryBList.size() > 0)
+                        mSubcategoryBList.clear();
 
                     mSubcategoryBList = response.body().getSubcategories();
 
@@ -264,7 +274,7 @@ public class ListingConditionFragment extends Fragment {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
 
@@ -275,7 +285,7 @@ public class ListingConditionFragment extends Fragment {
             public void onFailure(Call<Category> call, Throwable t) {
                 if (t instanceof IOException) {
                     // IOException is because Internet issue
-                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
 
                 } else {
                     //Other cause which mean Object format wrong or API problem
@@ -295,7 +305,8 @@ public class ListingConditionFragment extends Fragment {
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    if (mSubcategoryCList != null && mSubcategoryCList.size() > 0) mSubcategoryCList.clear();
+                    if (mSubcategoryCList != null && mSubcategoryCList.size() > 0)
+                        mSubcategoryCList.clear();
 
                     mSubcategoryCList = response.body().getSubcategories();
 
@@ -321,7 +332,7 @@ public class ListingConditionFragment extends Fragment {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
 
@@ -353,7 +364,8 @@ public class ListingConditionFragment extends Fragment {
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    if (mSubcategoryDList != null && mSubcategoryDList.size() > 0) mSubcategoryDList.clear();
+                    if (mSubcategoryDList != null && mSubcategoryDList.size() > 0)
+                        mSubcategoryDList.clear();
 
                     mSubcategoryDList = response.body().getSubcategories();
 
@@ -375,7 +387,7 @@ public class ListingConditionFragment extends Fragment {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
 
@@ -407,7 +419,8 @@ public class ListingConditionFragment extends Fragment {
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    if (mSubcategoryEList != null && mSubcategoryEList.size() > 0) mSubcategoryEList.clear();
+                    if (mSubcategoryEList != null && mSubcategoryEList.size() > 0)
+                        mSubcategoryEList.clear();
 
                     mSubcategoryEList = response.body().getSubcategories();
 
@@ -428,7 +441,7 @@ public class ListingConditionFragment extends Fragment {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getActivity(), "Our serves have some issues :( They will be back shortly", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
 

@@ -12,7 +12,16 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
 
     public static final String CLICKEDCATEGORYNUMBER_TAG = "ClickedCategoryInSubCategoryNumber";
 
+    private final String LISTINGCONDITIONFRAGMENT_TAG = "listingConditionfragment_tag";
+
+    private final String LISTINGCONTENTFRAGMENT_TAG = "listingContentfragment_tag";
+
     private Bundle extrasForClickedCategoryName;
+
+    private ListingConditionFragment listingConditionFragment;
+
+    private ListingContentFragment listingContentFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,15 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
             getIntentFromCategoryActivity();
 
             setUpTwoFragments();
+        } else {
+
+            listingConditionFragment = (ListingConditionFragment) getSupportFragmentManager().
+                    findFragmentByTag(LISTINGCONDITIONFRAGMENT_TAG);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.listing_condition_fragment_container, listingConditionFragment, LISTINGCONDITIONFRAGMENT_TAG)
+                    .commit();
+
         }
     }
 
@@ -42,18 +60,18 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
     private void setUpTwoFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        ListingConditionFragment listingConditionFragment = new ListingConditionFragment();
+        listingConditionFragment = new ListingConditionFragment();
         listingConditionFragment.setArguments(extrasForClickedCategoryName);
 
-        ListingContentFragment listingContentFragment = new ListingContentFragment();
+        listingContentFragment = new ListingContentFragment();
         listingContentFragment.setArguments(extrasForClickedCategoryName);
 
         fragmentManager.beginTransaction()
-                .add(R.id.listing_condition_fragment_container, listingConditionFragment)
+                .add(R.id.listing_condition_fragment_container, listingConditionFragment, LISTINGCONDITIONFRAGMENT_TAG)
                 .commit();
 
         fragmentManager.beginTransaction()
-                .add(R.id.listing_content_fragment_container, listingContentFragment)
+                .add(R.id.listing_content_fragment_container, listingContentFragment, LISTINGCONTENTFRAGMENT_TAG)
                 .commit();
     }
 

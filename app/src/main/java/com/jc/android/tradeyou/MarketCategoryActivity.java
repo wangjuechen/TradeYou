@@ -12,21 +12,26 @@ import com.jc.android.tradeyou.models.SubcategoryA;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MarketCategoryActivity extends AppCompatActivity {
 
     public static final String CATEGORY_LIST_TAG = "subcategoryAList";
 
-    private RecyclerView mRecyclerView_CategoryList;
+    @BindView(R.id.rv_categoryList)
+    RecyclerView mRecyclerView_CategoryList;
 
     private CategoryAdapter mCategoryAdapter;
 
     private ArrayList<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_category);
+
+        ButterKnife.bind(this);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,8 +58,6 @@ public class MarketCategoryActivity extends AppCompatActivity {
         mCategoryAdapter = new CategoryAdapter(this, mMarketPlaceCategoryList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-
-        mRecyclerView_CategoryList = findViewById(R.id.rv_categoryList);
 
         mRecyclerView_CategoryList.setLayoutManager(layoutManager);
 

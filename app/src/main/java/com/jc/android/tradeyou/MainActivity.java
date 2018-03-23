@@ -2,31 +2,33 @@ package com.jc.android.tradeyou;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jc.android.tradeyou.api.ServiceGenerator;
-import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.Category;
 import com.jc.android.tradeyou.models.SubcategoryA;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private ArrayList<SubcategoryA> mAllCategoryList = new ArrayList<>();
 
     public static final String CATEGORY_NAME_TAG = "Category_name_tag_mainactivity";
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         getCategoryListFromSplashActivity();
 
-        if(getSupportActionBar()!=null )
-            getSupportActionBar().setElevation(0);
-            getSupportActionBar().hide();
+        ButterKnife.bind(this);
+
+        mNavigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -59,6 +62,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openPropertyListingsActivity();
 
                 break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -152,4 +165,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(openPropertyListingActivityIntent);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_notification) {
+
+        } else if (id == R.id.nav_setting) {
+
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void openDrawer(View view) {
+        if (!mDrawerLayout.isDrawerOpen(mNavigationView)) {
+            mDrawerLayout.openDrawer(mNavigationView);
+        }
+    }
 }

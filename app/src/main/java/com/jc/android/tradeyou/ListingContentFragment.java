@@ -1,9 +1,12 @@
 package com.jc.android.tradeyou;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +47,8 @@ public class ListingContentFragment extends Fragment {
 
     private static final String NUMBER_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
 
+    private final String BUNDLE_RECYCLE_LAYOUT = "ListingRecyclerView";
+
     private static final String CATEGORY_NUMBER = "category_number";
 
     private TradeMeApI tradeMeApi;
@@ -54,6 +59,8 @@ public class ListingContentFragment extends Fragment {
 
     private String mCategoryNumber;
 
+    private LinearLayoutManager layoutManager;
+
     @BindView(R.id.layout_noData_message)
     ConstraintLayout mEmptyListingView;
 
@@ -62,6 +69,9 @@ public class ListingContentFragment extends Fragment {
 
     @BindView(R.id.progressBar_listingPage)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.swiperefresh_listing)
+    SwipeRefreshLayout swipeContainer;
 
     private Unbinder unbinder;
 
@@ -104,20 +114,38 @@ public class ListingContentFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
 
+        layoutManager = new LinearLayoutManager(getActivity());
+
+        DividerItemDecoration mDividerItemDecoration =
+                new DividerItemDecoration(mListingRecyclerView.getContext(), layoutManager.getOrientation());
+        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.color.divider_color));
+
+        mListingRecyclerView.addItemDecoration(mDividerItemDecoration);
+
+        swipeContainer.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(mItemDetailsList != null && mItemDetailsList.size()>0) mItemDetailsList.clear();
+
+                loadTradeMeAPI();
+            }
+        });
+
         return rootView;
     }
+
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         outState.putString(CATEGORY_NUMBER, mCategoryNumber);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         unbinder.unbind();
     }
 
@@ -147,6 +175,7 @@ public class ListingContentFragment extends Fragment {
                     }
 
                     setUpProgressBarInvisible();
+                    swipeContainer.setRefreshing(false);
 
                 } else {
 
@@ -155,7 +184,7 @@ public class ListingContentFragment extends Fragment {
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getActivity(), "Ops :( Please try again later", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
                     Log.d("ListingContentFragment", "Error code: " + statusCode + response.message() + error.message());
 
@@ -165,11 +194,11 @@ public class ListingContentFragment extends Fragment {
             @Override
             public void onFailure(Call<Listing> call, Throwable t) {
                 if (t instanceof IOException) {
-                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    Toast.makeText(getActivity(), "Listing fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_other_issue_toast), Toast.LENGTH_SHORT).show();
                     Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
 
                 }
@@ -185,19 +214,13 @@ public class ListingContentFragment extends Fragment {
 
         mItemListingAdapter = new ItemListingAdapter(getActivity(), mItemDetailsList);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
 
         mListingRecyclerView.setLayoutManager(layoutManager);
 
         mListingRecyclerView.setHasFixedSize(true);
 
         mListingRecyclerView.setAdapter(mItemListingAdapter);
-
-        DividerItemDecoration mDividerItemDecoration =
-                new DividerItemDecoration(mListingRecyclerView.getContext(),layoutManager.getOrientation());
-        mDividerItemDecoration.setDrawable(getResources().getDrawable(R.color.divider_color));
-
-        mListingRecyclerView.addItemDecoration(mDividerItemDecoration);
 
     }
 
