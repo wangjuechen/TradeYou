@@ -1,9 +1,7 @@
 package com.jc.android.tradeyou;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,16 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jc.android.tradeyou.adapter.ItemListingAdapter;
-import com.jc.android.tradeyou.api.APIError;
-import com.jc.android.tradeyou.api.ErrorUtils;
+import com.jc.android.tradeyou.api.util.APIError;
+import com.jc.android.tradeyou.api.util.ErrorUtils;
 import com.jc.android.tradeyou.api.ServiceGenerator;
-import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.ItemDetailsFromListing;
-import com.jc.android.tradeyou.models.Listing;
+import com.jc.android.tradeyou.api.TradeMeApi;
+import com.jc.android.tradeyou.models.listing.ListingDetails;
+import com.jc.android.tradeyou.models.listing.Listing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,11 +48,11 @@ public class ListingContentFragment extends Fragment {
 
     private static final String CATEGORY_NUMBER = "category_number";
 
-    private TradeMeApI tradeMeApi;
+    private TradeMeApi tradeMeApi;
 
     private ItemListingAdapter mItemListingAdapter;
 
-    private List<ItemDetailsFromListing> mItemDetailsList = new ArrayList<>();
+    private List<ListingDetails> mItemDetailsList = new ArrayList<>();
 
     private String mCategoryNumber;
 
@@ -154,7 +151,7 @@ public class ListingContentFragment extends Fragment {
         String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
         String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class,
+        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class,
                 " OAuth oauth_consumer_key=\"" + consumerKey + "\"," + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"" + consumerSecret + "&\"");
 
         //"List" query value make listing photos get more resolution, instead of being blurred

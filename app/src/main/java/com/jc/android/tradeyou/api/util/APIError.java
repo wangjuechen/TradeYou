@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.api;
+package com.jc.android.tradeyou.api.util;
 
 
 public class APIError {

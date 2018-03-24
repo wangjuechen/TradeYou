@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jc.android.tradeyou.api.ServiceGenerator;
-import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.Category;
-import com.jc.android.tradeyou.models.SubcategoryA;
+import com.jc.android.tradeyou.api.TradeMeApi;
+import com.jc.android.tradeyou.models.category.Category;
+import com.jc.android.tradeyou.models.category.Subcategory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,13 +37,13 @@ public class ListingConditionFragment extends Fragment {
 
     private static final String NUMBER_ARG_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
 
-    private ArrayList<SubcategoryA> mSubcategoryBList = new ArrayList<>();
+    private ArrayList<Subcategory> mSubcategoryBList = new ArrayList<>();
 
-    private ArrayList<SubcategoryA> mSubcategoryCList = new ArrayList<>();
+    private ArrayList<Subcategory> mSubcategoryCList = new ArrayList<>();
 
-    private ArrayList<SubcategoryA> mSubcategoryDList = new ArrayList<>();
+    private ArrayList<Subcategory> mSubcategoryDList = new ArrayList<>();
 
-    private ArrayList<SubcategoryA> mSubcategoryEList = new ArrayList<>();
+    private ArrayList<Subcategory> mSubcategoryEList = new ArrayList<>();
 
     private ArrayList<String> mSubcategoryBNameList = new ArrayList<>();
 
@@ -62,7 +61,7 @@ public class ListingConditionFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private TradeMeApI tradeMeApi;
+    private TradeMeApi tradeMeApi;
 
     @BindView(R.id.tv_listing_category_first_condition)
     TextView tv_first_condition;
@@ -246,7 +245,7 @@ public class ListingConditionFragment extends Fragment {
 
     private void loadSecondSubCategoryAPI(String queryCategory) {
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
         tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
 
@@ -298,7 +297,7 @@ public class ListingConditionFragment extends Fragment {
 
     private void loadThirdSubcategoryAPI(String queryCategory, final int index) {
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
         tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
             @Override
@@ -356,7 +355,7 @@ public class ListingConditionFragment extends Fragment {
 
     private void loadForthSubcategoryAPI(String queryCategory, final int index) {
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
         tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
 
@@ -411,7 +410,7 @@ public class ListingConditionFragment extends Fragment {
 
     private void loadFifthSubcategoryAPI(String queryCategory, final int index) {
 
-        tradeMeApi = ServiceGenerator.createService(TradeMeApI.class, null);
+        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
         tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
 

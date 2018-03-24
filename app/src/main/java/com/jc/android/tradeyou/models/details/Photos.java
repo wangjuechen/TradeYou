@@ -1,11 +1,8 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.details;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Photos {
     @SerializedName("Key")

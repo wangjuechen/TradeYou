@@ -1,11 +1,10 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.category;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Category {
 
@@ -23,7 +22,7 @@ public class Category {
 
     @SerializedName("Subcategories")
     @Expose
-    private ArrayList<SubcategoryA> subcategories = null;
+    private ArrayList<Subcategory> subcategories = null;
 
     public String getIdentifier_number() {
         return identifier_number;
@@ -41,11 +40,11 @@ public class Category {
         this.path = path;
     }
 
-    public ArrayList<SubcategoryA> getSubcategories() {
+    public ArrayList<Subcategory> getSubcategories() {
         return subcategories;
     }
 
-    public void setSubcategories(ArrayList<SubcategoryA> subcategories) {
+    public void setSubcategories(ArrayList<Subcategory> subcategories) {
         this.subcategories = subcategories;
     }
 

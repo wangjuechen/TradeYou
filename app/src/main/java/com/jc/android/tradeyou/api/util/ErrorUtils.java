@@ -1,5 +1,8 @@
-package com.jc.android.tradeyou.api;
+package com.jc.android.tradeyou.api.util;
 
+
+import com.jc.android.tradeyou.api.ServiceGenerator;
+import com.jc.android.tradeyou.api.util.APIError;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

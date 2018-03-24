@@ -7,18 +7,16 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.jc.android.tradeyou.api.APIError;
-import com.jc.android.tradeyou.api.ErrorUtils;
+import com.jc.android.tradeyou.api.util.APIError;
+import com.jc.android.tradeyou.api.util.ErrorUtils;
 import com.jc.android.tradeyou.api.ServiceGenerator;
-import com.jc.android.tradeyou.api.TradeMeApI;
-import com.jc.android.tradeyou.models.ItemDetailsFromIDPath;
+import com.jc.android.tradeyou.api.TradeMeApi;
+import com.jc.android.tradeyou.models.details.ItemDetails;
 
 import java.io.IOException;
 
@@ -34,7 +32,7 @@ public class DetailsActivity extends AppCompatActivity {
 
     private int mListingId;
 
-    private TradeMeApI mTradeMeApI;
+    private TradeMeApi mTradeMeApi;
 
 //    @BindView(R.id.progressBar_detailPage)
 //    ProgressBar progressBar_imageLoading;
@@ -101,12 +99,12 @@ public class DetailsActivity extends AppCompatActivity {
         String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
         String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
 
-        mTradeMeApI = ServiceGenerator.createService(TradeMeApI.class,
+        mTradeMeApi = ServiceGenerator.createService(TradeMeApi.class,
                 " OAuth oauth_consumer_key=\"" + consumerKey + "\"," + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"" + consumerSecret + "&\"");
 
-        mTradeMeApI.getItemDetailsFromID(String.valueOf(mListingId)).enqueue(new Callback<ItemDetailsFromIDPath>() {
+        mTradeMeApi.getItemDetailsFromID(String.valueOf(mListingId)).enqueue(new Callback<ItemDetails>() {
             @Override
-            public void onResponse(Call<ItemDetailsFromIDPath> call, Response<ItemDetailsFromIDPath> response) {
+            public void onResponse(Call<ItemDetails> call, Response<ItemDetails> response) {
                 if (response.isSuccessful()) {
 
                     String listingTitle = response.body().getItemTitle();
@@ -140,7 +138,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ItemDetailsFromIDPath> call, Throwable t) {
+            public void onFailure(Call<ItemDetails> call, Throwable t) {
 
                 if (t instanceof IOException) {
                     Toast.makeText(getApplicationContext(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();

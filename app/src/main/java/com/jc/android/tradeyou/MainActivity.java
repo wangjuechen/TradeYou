@@ -10,17 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jc.android.tradeyou.models.SubcategoryA;
+import com.jc.android.tradeyou.models.category.Subcategory;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private ArrayList<SubcategoryA> mAllCategoryList = new ArrayList<>();
+    private ArrayList<Subcategory> mAllCategoryList = new ArrayList<>();
 
     public static final String CATEGORY_NAME_TAG = "Category_name_tag_mainactivity";
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int jobCategoryIndex = 2;
 
-        SubcategoryA jobSubcategoryList = mAllCategoryList.get(jobCategoryIndex);
+        Subcategory jobSubcategoryList = mAllCategoryList.get(jobCategoryIndex);
 
         String name = jobSubcategoryList.getName();
 
@@ -129,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        SubcategoryA motorsSubcategoryList = mAllCategoryList.get(0);
+        Subcategory motorsSubcategoryList = mAllCategoryList.get(0);
 
         String name = motorsSubcategoryList.getName();
 
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        SubcategoryA propertySubcategoryList = mAllCategoryList.get(1);
+        Subcategory propertySubcategoryList = mAllCategoryList.get(1);
 
         String name = propertySubcategoryList.getName();
 

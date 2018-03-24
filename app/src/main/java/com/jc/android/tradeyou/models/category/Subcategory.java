@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.category;
 
 
 import android.os.Parcel;
@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 
-public class SubcategoryA implements Parcelable{
+public class Subcategory implements Parcelable{
 
     @SerializedName("Name")
     @Expose
@@ -26,7 +26,7 @@ public class SubcategoryA implements Parcelable{
 
     @SerializedName("Subcategories")
     @Expose
-    private ArrayList<SubcategoryB> Subcategories = new ArrayList<SubcategoryB>();
+    private ArrayList<Subcategory> Subcategories = new ArrayList<>();
 
     @SerializedName("Count")
     @Expose
@@ -48,15 +48,15 @@ public class SubcategoryA implements Parcelable{
     @Expose
     private AreaOfBusiness areaOfBusiness;
 
-    public static final Creator<SubcategoryA> CREATOR = new
-    Creator<SubcategoryA>() {
+    public static final Creator<Subcategory> CREATOR = new
+    Creator<Subcategory>() {
 
-        public SubcategoryA createFromParcel(Parcel in) {
-            return new SubcategoryA(in);
+        public Subcategory createFromParcel(Parcel in) {
+            return new Subcategory(in);
         }
 
-        public SubcategoryA[] newArray(int size) {
-            return new SubcategoryA[size];
+        public Subcategory[] newArray(int size) {
+            return new Subcategory[size];
         }
     };
 
@@ -112,11 +112,11 @@ public class SubcategoryA implements Parcelable{
     @Expose
     private Boolean isLeaf;
 
-    public SubcategoryA(Parcel in) {
+    public Subcategory(Parcel in) {
         name = in.readString();
         identifier_number = in.readString();
         path = in.readString();
-        in.readList(Subcategories,SubcategoryB.class.getClassLoader());
+        in.readList(Subcategories,Subcategory.class.getClassLoader());
         if (in.readByte() == 0) {
             numberOfItem = null;
         } else {
@@ -161,11 +161,11 @@ public class SubcategoryA implements Parcelable{
         this.path = path;
     }
 
-    public ArrayList<SubcategoryB> getSubcategories() {
+    public ArrayList<Subcategory> getSubcategories() {
         return Subcategories;
     }
 
-    public void setSubcategories(ArrayList<SubcategoryB> subcategories) {
+    public void setSubcategories(ArrayList<Subcategory> subcategories) {
         Subcategories = subcategories;
     }
 

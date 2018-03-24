@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.jc.android.tradeyou.DetailsActivity;
 import com.jc.android.tradeyou.R;
-import com.jc.android.tradeyou.models.ItemDetailsFromListing;
+import com.jc.android.tradeyou.models.listing.ListingDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,9 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
     private Context mContext;
 
-    private List<ItemDetailsFromListing> mItemDetailsListing = new ArrayList<>();
+    private List<ListingDetails> mItemDetailsListing = new ArrayList<>();
 
-    public ItemListingAdapter(Context context, List<ItemDetailsFromListing> itemDetailsList) {
+    public ItemListingAdapter(Context context, List<ListingDetails> itemDetailsList) {
         this.mContext = context;
         this.mItemDetailsListing = itemDetailsList;
     }
@@ -40,7 +40,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
         boolean shouldAttachToParent = false;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listing, parent, shouldAttachToParent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_listing_item, parent, shouldAttachToParent);
 
         ItemListingAdapterViewHolder listingViewHolder = new ItemListingAdapterViewHolder(view);
 

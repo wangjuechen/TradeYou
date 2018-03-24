@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.jc.android.tradeyou.adapter.CategoryAdapter;
-import com.jc.android.tradeyou.models.SubcategoryA;
+import com.jc.android.tradeyou.models.category.Subcategory;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
 
     private CategoryAdapter mCategoryAdapter;
 
-    private ArrayList<SubcategoryA> mMarketPlaceCategoryList = new ArrayList<>();
+    private ArrayList<Subcategory> mMarketPlaceCategoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

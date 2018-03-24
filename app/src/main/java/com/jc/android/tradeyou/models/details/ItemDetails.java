@@ -1,13 +1,12 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.details;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-public class ItemDetailsFromIDPath {
+public class ItemDetails {
 
     @SerializedName("Title")
     @Expose

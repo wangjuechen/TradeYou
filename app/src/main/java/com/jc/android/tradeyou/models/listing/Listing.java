@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.listing;
 
 
 import com.google.gson.annotations.Expose;
@@ -14,7 +14,7 @@ public class Listing {
 
     @SerializedName("List")
     @Expose
-    private List<ItemDetailsFromListing> itemDetailsList = null;
+    private List<ListingDetails> itemDetailsList = null;
 
 
     public int getTotalCount() {
@@ -25,11 +25,11 @@ public class Listing {
         this.totalCount = totalCount;
     }
 
-    public List<ItemDetailsFromListing> getItemDetailsList() {
+    public List<ListingDetails> getItemDetailsList() {
         return itemDetailsList;
     }
 
-    public void setItemDetailsList(List<ItemDetailsFromListing> itemDetailsList) {
+    public void setItemDetailsList(List<ListingDetails> itemDetailsList) {
         this.itemDetailsList = itemDetailsList;
     }
 }

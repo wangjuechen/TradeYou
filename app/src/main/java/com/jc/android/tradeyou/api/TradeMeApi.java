@@ -1,16 +1,16 @@
 package com.jc.android.tradeyou.api;
 
 
-import com.jc.android.tradeyou.models.Category;
-import com.jc.android.tradeyou.models.ItemDetailsFromIDPath;
-import com.jc.android.tradeyou.models.Listing;
+import com.jc.android.tradeyou.models.category.Category;
+import com.jc.android.tradeyou.models.details.ItemDetails;
+import com.jc.android.tradeyou.models.listing.Listing;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface TradeMeApI {
+public interface TradeMeApi {
 
     @GET("v1/Categories/{number}.json")
     Call<Category> getCategory(@Path("number") String number, @Query("depth") Integer depth);
@@ -19,5 +19,5 @@ public interface TradeMeApI {
     Call<Listing> getListing(@Query("category") String category, @Query("photo_size") String photoSize);
 
     @GET("v1/Listings/{Id}.json")
-    Call<ItemDetailsFromIDPath> getItemDetailsFromID(@Path("Id") String listingId);
+    Call<ItemDetails> getItemDetailsFromID(@Path("Id") String listingId);
 }

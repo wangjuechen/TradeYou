@@ -1,10 +1,10 @@
-package com.jc.android.tradeyou.models;
+package com.jc.android.tradeyou.models.listing;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ItemDetailsFromListing {
+public class ListingDetails {
 
     @SerializedName("ListingId")
     @Expose
