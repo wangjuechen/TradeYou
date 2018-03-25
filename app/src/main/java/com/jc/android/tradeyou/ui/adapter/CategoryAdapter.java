@@ -36,7 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         boolean shouldAttachToParent = false;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_category_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_category_item, parent, shouldAttachToParent);
 
         return new CategoryAdapterViewHolder(view);
     }
