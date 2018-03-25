@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.api.ServiceGenerator;
 import com.jc.android.tradeyou.data.api.TradeMeApi;
@@ -21,6 +22,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     private static final int SPLASH_TIME_OUT = 1000;
 
@@ -46,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 
                     final ArrayList<Subcategory> mAllCategoryList = response.body().getSubcategories();
 
-                    Log.d("SplashActivity", "Loaded from API is complete");
+                    if(BuildConfig.DEBUG) Log.d(TAG, "Loaded from API is complete");
 
                     new Handler().postDelayed(new Runnable() {
 
@@ -56,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
 
                             Bundle extra = new Bundle();
 
-                            extra.putParcelableArrayList(MainActivity.CATEGORY_NAME_TAG, mAllCategoryList);
+                            extra.putParcelableArrayList(MainActivity.EXTRA_CATEGORY_NAME_LIST, mAllCategoryList);
 
                             intent.putExtras(extra);
 
@@ -73,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
                     if (statusCode == 500)
                         Toast.makeText(SplashActivity.this, getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("SplashActivity", "Error code: " + statusCode + response.message());
+                    if(BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -87,7 +90,7 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
 
                     //Other cause which mean Object format wrong or API problem
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if(BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }

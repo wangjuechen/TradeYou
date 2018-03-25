@@ -19,10 +19,10 @@
         </activity>
         <activity
             android:name=".ui.MarketCategoryActivity"
-            android:label="@string/activity_label_marketPlace_categoryBrowse" />
+            android:label="@string/title_browse_marketPlace_category" />
         <activity
             android:name=".ui.ListingActivity"
-            android:label="@string/title_home_browse"
+            android:label="@string/title_browse_listing_page"
             android:configChanges= "orientation|keyboardHidden"/>
 
         <activity android:name=".ui.DetailsActivity"

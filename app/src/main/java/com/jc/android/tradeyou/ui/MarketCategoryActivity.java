@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class MarketCategoryActivity extends AppCompatActivity {
 
-    public static final String CATEGORY_LIST_TAG = "subcategoryAList";
+    public static final String EXTRA_CATEGORY_LIST = "com.tradeyou.extras.EXTRA_CATEGORY_LIST";
 
     @BindView(R.id.rv_categoryList)
     RecyclerView mRecyclerView_CategoryList;
@@ -48,7 +48,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent.getExtras() != null) {
-            mMarketPlaceCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_LIST_TAG);
+            mMarketPlaceCategoryList = intent.getExtras().getParcelableArrayList(EXTRA_CATEGORY_LIST);
         }
     }
 

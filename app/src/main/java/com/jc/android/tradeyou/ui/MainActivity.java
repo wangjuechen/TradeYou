@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<Subcategory> mAllCategoryList = new ArrayList<>();
 
-    public static final String CATEGORY_NAME_TAG = "Category_name_tag_mainActivity";
+    public static final String EXTRA_CATEGORY_NAME_LIST = "com.tradeyou.extras.EXTRA_CATEGORY_NAME_LIST";
 
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -46,19 +46,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_marketPlace:
+            case R.id.text_marketPlace:
                 openMarketPlaceCategoryActivity();
 
                 break;
-            case R.id.tv_jobs:
+            case R.id.text_jobs:
                 openJobsListingActivity();
 
                 break;
-            case R.id.tv_motors:
+            case R.id.text_motors:
                 openMotorsListingActivity();
 
                 break;
-            case R.id.tv_property:
+            case R.id.text_property:
                 openPropertyListingsActivity();
 
                 break;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
 
         if (intent.getExtras() != null) {
-            mAllCategoryList = intent.getExtras().getParcelableArrayList(CATEGORY_NAME_TAG);
+            mAllCategoryList = intent.getExtras().getParcelableArrayList(EXTRA_CATEGORY_NAME_LIST);
         }
 
     }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extra = new Bundle();
 
-        extra.putParcelableArrayList(MarketCategoryActivity.CATEGORY_LIST_TAG, mAllCategoryList);
+        extra.putParcelableArrayList(MarketCategoryActivity.EXTRA_CATEGORY_LIST, mAllCategoryList);
 
         openMarketPlaceCategoryIntent.putExtras(extra);
 
@@ -113,9 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String number = jobSubcategoryList.getIdentifier_number();
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+        extra.putString(ListingActivity.EXTRA_LISTING_NAME, name);
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+        extra.putString(ListingActivity.EXTRA_LISTING_NUMBER, number);
 
         openJobListingActivityIntent.putExtras(extra);
 
@@ -135,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String number = motorsSubcategoryList.getIdentifier_number();
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+        extra.putString(ListingActivity.EXTRA_LISTING_NAME, name);
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+        extra.putString(ListingActivity.EXTRA_LISTING_NUMBER, number);
 
         openMotorsListingActivityIntent.putExtras(extra);
 
@@ -156,9 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String number = propertySubcategoryList.getIdentifier_number();
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, name);
+        extra.putString(ListingActivity.EXTRA_LISTING_NAME, name);
 
-        extra.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, number);
+        extra.putString(ListingActivity.EXTRA_LISTING_NUMBER, number);
 
         openPropertyListingActivityIntent.putExtras(extra);
 

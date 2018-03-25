@@ -9,5 +9,5 @@
 
     <color name="divider_color">#30976110</color>
 
-    <color name="detail_image_foreground">#20000000</color>
+    <color name="image_foreground">#20000000</color>
 </resources>

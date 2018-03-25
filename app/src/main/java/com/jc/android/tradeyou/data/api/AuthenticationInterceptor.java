@@ -8,10 +8,10 @@ import okhttp3.Request;
 
 class AuthenticationInterceptor implements Interceptor {
 
-    private final String authToken;
+    private final String mAuthToken;
 
-    public AuthenticationInterceptor(String token) {
-        this.authToken = token;
+    AuthenticationInterceptor(String token) {
+        this.mAuthToken = token;
     }
 
     @Override
@@ -19,7 +19,7 @@ class AuthenticationInterceptor implements Interceptor {
         Request original = chain.request();
 
         Request.Builder builder = original.newBuilder()
-                .header("Authorization", authToken);
+                .header("Authorization", mAuthToken);
 
         Request request = builder.build();
         return chain.proceed(request);

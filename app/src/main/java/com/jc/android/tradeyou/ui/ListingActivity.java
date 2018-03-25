@@ -10,19 +10,19 @@ import com.jc.android.tradeyou.R;
 
 public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener {
 
-    public static final String CLICKEDCATEGORYNAME_TAG = "ClickedCategoryInSubCategoryBName";
+    public static final String EXTRA_LISTING_NAME = "com.tradeyou.extras.EXTRA_LISTING_NAME";
 
-    public static final String CLICKEDCATEGORYNUMBER_TAG = "ClickedCategoryInSubCategoryNumber";
+    public static final String EXTRA_LISTING_NUMBER = "com.tradeyou.extras.EXTRA_LISTING_NUMBER";
 
-    private final String CONDITIONFRAGMENT_KEY = "condition_fragment_key";
+    private final String BUNDLE_CONDITION_FRAGMENT = "CONDITION_FRAGMENT";
 
-    private final String CONTENTFRAGMENT_KEY = "content_fragment_key";
+    private final String BUNDLE_CONTENT_FRAGMENT = "CONTENT_FRAGMENT";
 
-    private Bundle extrasForClickedCategoryName;
+    private Bundle mExtrasForClickedCategoryName;
 
-    private ListingConditionFragment listingConditionFragment;
+    private ListingConditionFragment mListingConditionFragment;
 
-    private ListingContentFragment listingContentFragment;
+    private ListingContentFragment mListingContentFragment;
 
 
     @Override
@@ -46,23 +46,24 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, CONDITIONFRAGMENT_KEY, listingConditionFragment);
-        getSupportFragmentManager().putFragment(outState, CONTENTFRAGMENT_KEY, listingContentFragment);
+        getSupportFragmentManager().putFragment(outState, BUNDLE_CONDITION_FRAGMENT, mListingConditionFragment);
+        getSupportFragmentManager().putFragment(outState, BUNDLE_CONTENT_FRAGMENT, mListingContentFragment);
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        listingConditionFragment = (ListingConditionFragment) getSupportFragmentManager().getFragment(savedInstanceState, CONDITIONFRAGMENT_KEY);
-        listingContentFragment = (ListingContentFragment) getSupportFragmentManager().getFragment(savedInstanceState, CONTENTFRAGMENT_KEY);
+        mListingConditionFragment = (ListingConditionFragment) getSupportFragmentManager().getFragment(savedInstanceState, BUNDLE_CONDITION_FRAGMENT);
+        mListingContentFragment = (ListingContentFragment) getSupportFragmentManager().getFragment(savedInstanceState, BUNDLE_CONTENT_FRAGMENT);
     }
+
 
     private void getIntentFromCategoryActivity() {
 
         Intent intent = getIntent();
 
-        extrasForClickedCategoryName = intent.getExtras();
+        mExtrasForClickedCategoryName = intent.getExtras();
     }
 
 
@@ -70,19 +71,19 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        listingConditionFragment = new ListingConditionFragment();
-        listingConditionFragment.setArguments(extrasForClickedCategoryName);
+        mListingConditionFragment = new ListingConditionFragment();
+        mListingConditionFragment.setArguments(mExtrasForClickedCategoryName);
 
-        listingContentFragment = new ListingContentFragment();
-        listingContentFragment.setArguments(extrasForClickedCategoryName);
+        mListingContentFragment = new ListingContentFragment();
+        mListingContentFragment.setArguments(mExtrasForClickedCategoryName);
 
 
         fragmentManager.beginTransaction()
-                .add(R.id.listing_condition_fragment_container, listingConditionFragment)
+                .add(R.id.listing_condition_fragment_container, mListingConditionFragment)
                 .commit();
 
         fragmentManager.beginTransaction()
-                .add(R.id.listing_content_fragment_container, listingContentFragment)
+                .add(R.id.listing_content_fragment_container, mListingContentFragment)
                 .commit();
     }
 
@@ -99,10 +100,10 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
 
     @Override
     public void onFragmentInteraction(String categoryNumber) {
-        listingContentFragment = ListingContentFragment.newInstance(categoryNumber);
+        mListingContentFragment = ListingContentFragment.newInstance(categoryNumber);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.listing_content_fragment_container, listingContentFragment)
+                .replace(R.id.listing_content_fragment_container, mListingContentFragment)
                 .commit();
     }
 }

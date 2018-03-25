@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,13 +24,13 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/row_padding"
+            android:layout_margin="@dimen/spacing_small"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:contentDescription="@string/content_description_main_drawerLayout_toggle"
             android:focusable="true"
             android:onClick="openDrawer"
-            android:padding="@dimen/touchable_padding"
+            android:padding="@dimen/spacing_touchable_padding"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_dehaze_black_24px" />
@@ -37,76 +38,76 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/row_padding"
+            android:layout_marginTop="@dimen/spacing_small"
             android:baselineAligned="false"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/banner_main_page">
 
             <TextView
-                android:id="@+id/tv_marketPlace"
+                android:id="@+id/text_marketPlace"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:drawablePadding="@dimen/main_title_icon_space"
+                android:drawablePadding="@dimen/spacing_main_title_icon_space"
                 android:drawableTop="@drawable/ic_marketplace"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:padding="@dimen/touchable_padding"
-                android:text="@string/marketPlace_home"
-                android:textSize="@dimen/home_subtitle_font_size" />
+                android:padding="@dimen/spacing_touchable_padding"
+                android:text="@string/title_marketPlace_home"
+                android:textSize="@dimen/font_size_normal" />
 
 
             <TextView
-                android:id="@+id/tv_jobs"
+                android:id="@+id/text_jobs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:drawablePadding="@dimen/main_title_icon_space"
+                android:drawablePadding="@dimen/spacing_main_title_icon_space"
                 android:drawableTop="@drawable/ic_jobs"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:padding="@dimen/touchable_padding"
-                android:text="@string/jobs_home"
-                android:textSize="@dimen/home_subtitle_font_size" />
+                android:padding="@dimen/spacing_touchable_padding"
+                android:text="@string/title_jobs_home"
+                android:textSize="@dimen/font_size_normal" />
 
             <TextView
-                android:id="@+id/tv_motors"
+                android:id="@+id/text_motors"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:drawablePadding="@dimen/main_title_icon_space"
+                android:drawablePadding="@dimen/spacing_main_title_icon_space"
                 android:drawableTop="@drawable/ic_motors"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:padding="@dimen/touchable_padding"
-                android:text="@string/motors_home"
-                android:textSize="@dimen/home_subtitle_font_size" />
+                android:padding="@dimen/spacing_touchable_padding"
+                android:text="@string/title_motors_home"
+                android:textSize="@dimen/font_size_normal" />
 
             <TextView
-                android:id="@+id/tv_property"
+                android:id="@+id/text_property"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:drawablePadding="@dimen/main_title_icon_space"
+                android:drawablePadding="@dimen/spacing_main_title_icon_space"
                 android:drawableTop="@drawable/ic_property"
                 android:focusable="true"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:padding="@dimen/touchable_padding"
-                android:text="@string/property_home"
-                android:textSize="@dimen/home_subtitle_font_size" />
+                android:padding="@dimen/spacing_touchable_padding"
+                android:text="@string/title_property_home"
+                android:textSize="@dimen/font_size_normal" />
         </LinearLayout>
 
 

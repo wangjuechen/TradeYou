@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jc.android.tradeyou.ui.ListingActivity;
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.models.category.Subcategory;
+import com.jc.android.tradeyou.ui.ListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterViewHolder> {
+
+    private static final String TAG = CategoryAdapter.class.getSimpleName();
 
     private final Context mContext;
     private List<Subcategory> mSubcategoryList = new ArrayList<>();
@@ -36,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         boolean shouldAttachToParent = false;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_category_item, parent, shouldAttachToParent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, shouldAttachToParent);
 
         return new CategoryAdapterViewHolder(view);
     }
@@ -56,7 +59,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         if (holder.getAdapterPosition() > 0) {
 
-            if (mSubcategoryList.get(holder.getAdapterPosition()).getName().substring(0, 1).equals(mSubcategoryList.get(holder.getAdapterPosition() - 1).getName().substring(0, 1))) {
+            if (mSubcategoryList.get(holder.getAdapterPosition()).getName().substring(0, 1)
+                    .equals(mSubcategoryList.get(holder.getAdapterPosition() - 1).getName().substring(0, 1))) {
 
                 holder.tv_alphabet.setVisibility(View.INVISIBLE);
 
@@ -76,10 +80,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public class CategoryAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.tv_category_name)
+        @BindView(R.id.text_category_name)
         TextView tv_categoryName;
 
-        @BindView(R.id.tv_alphabet)
+        @BindView(R.id.text_alphabet)
         TextView tv_alphabet;
 
         public CategoryAdapterViewHolder(View itemView) {
@@ -100,7 +104,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             startCategoryListActivity(clickedCategoryName, clickedCategoryNumber);
 
-            Log.d("CategoryAdapter ", "Clicked Category in subCategory, " + clickedCategoryName + clickedCategoryNumber);
+            if (BuildConfig.DEBUG) Log.d(TAG, "Clicked Category in subCategory, " + clickedCategoryName + clickedCategoryNumber);
 
         }
 
@@ -108,9 +112,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             Bundle bundle = new Bundle();
 
-            bundle.putString(ListingActivity.CLICKEDCATEGORYNAME_TAG, CategoryName);
+            bundle.putString(ListingActivity.EXTRA_LISTING_NAME, CategoryName);
 
-            bundle.putString(ListingActivity.CLICKEDCATEGORYNUMBER_TAG, CategoryNumber);
+            bundle.putString(ListingActivity.EXTRA_LISTING_NUMBER, CategoryNumber);
 
             Intent intent = new Intent(mContext, ListingActivity.class);
 

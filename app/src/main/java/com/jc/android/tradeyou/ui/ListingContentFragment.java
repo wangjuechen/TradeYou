@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.api.ServiceGenerator;
 import com.jc.android.tradeyou.data.api.TradeMeApi;
@@ -44,11 +45,13 @@ import retrofit2.Response;
  */
 public class ListingContentFragment extends Fragment {
 
-    private static final String NUMBER_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
+    private static final String TAG = ListingConditionFragment.class.getSimpleName();
 
-    private final String BUNDLE_RECYCLE_LAYOUT = "ListingRecyclerView";
+    private static final String ARGUMENT_NAME = ListingActivity.EXTRA_LISTING_NUMBER;
 
-    private static final String CATEGORY_NUMBER = "category_number";
+    private final String BUNDLE_RECYCLE_LAYOUT = "BUNDLE_RECYCLE_LAYOUT";
+
+    private static final String BUNDLE_CATEGORY_NUMBER = "BUNDLE_CATEGORY_NUMBER";
 
     private List<ListingDetails> mItemDetailsList = new ArrayList<>();
 
@@ -56,7 +59,7 @@ public class ListingContentFragment extends Fragment {
 
     private LinearLayoutManager layoutManager;
 
-    @BindView(R.id.layout_noData_message)
+    @BindView(R.id.layout_empty_message)
     ConstraintLayout mEmptyListingView;
 
     @BindView(R.id.rv_itemsListing)
@@ -84,7 +87,7 @@ public class ListingContentFragment extends Fragment {
     public static ListingContentFragment newInstance(String param1) {
         ListingContentFragment fragment = new ListingContentFragment();
         Bundle args = new Bundle();
-        args.putString(NUMBER_TAG, param1);
+        args.putString(ARGUMENT_NAME, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,17 +96,17 @@ public class ListingContentFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if(mListingRecyclerView.getLayoutManager() != null) outState.putParcelable(BUNDLE_RECYCLE_LAYOUT, mListingRecyclerView.getLayoutManager().onSaveInstanceState());
-        outState.putString(CATEGORY_NUMBER, mCategoryNumber);
+        outState.putString(BUNDLE_CATEGORY_NUMBER, mCategoryNumber);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
-            mCategoryNumber = getArguments().getString(NUMBER_TAG);
+            mCategoryNumber = getArguments().getString(ARGUMENT_NAME);
 
         if (savedInstanceState != null)
-            mCategoryNumber = savedInstanceState.getString(CATEGORY_NUMBER);
+            mCategoryNumber = savedInstanceState.getString(BUNDLE_CATEGORY_NUMBER);
     }
 
 
@@ -113,7 +116,7 @@ public class ListingContentFragment extends Fragment {
 
         loadTradeMeAPI(savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_listing, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_listing_content, container, false);
 
         unbinder = ButterKnife.bind(this, rootView);
 
@@ -163,7 +166,7 @@ public class ListingContentFragment extends Fragment {
                         mItemDetailsList.clear();
                     mItemDetailsList = response.body().getItemDetailsList();
 
-                    Log.d("ListingContentFragment", "Listing loaded from API");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Listing loaded from API");
 
                     if (mItemDetailsList.size() > 0) {
                         displayRecyclerView(savedInstanceState);
@@ -183,7 +186,7 @@ public class ListingContentFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("ListingContentFragment", "Error code: " + statusCode + response.message() + error.message());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message() + error.message());
 
                 }
             }
@@ -196,7 +199,7 @@ public class ListingContentFragment extends Fragment {
                 } else {
 
                     Toast.makeText(getActivity(), getResources().getString(R.string.error_other_issue_toast), Toast.LENGTH_SHORT).show();
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }
@@ -220,7 +223,7 @@ public class ListingContentFragment extends Fragment {
         mListingRecyclerView.setAdapter(mItemListingAdapter);
 
         if (savedInstanceState != null) {
-            mCategoryNumber = savedInstanceState.getString(CATEGORY_NUMBER);
+            mCategoryNumber = savedInstanceState.getString(BUNDLE_CATEGORY_NUMBER);
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLE_LAYOUT);
             mListingRecyclerView.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
         }

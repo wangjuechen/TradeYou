@@ -14,6 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.api.ServiceGenerator;
 import com.jc.android.tradeyou.data.api.TradeMeApi;
@@ -35,25 +36,27 @@ import retrofit2.Response;
 
 public class ListingConditionFragment extends Fragment {
 
-    private static final String NAME_ARG_TAG = ListingActivity.CLICKEDCATEGORYNAME_TAG;
+    private static final String TAG = ListingConditionFragment.class.getSimpleName();
 
-    private static final String NUMBER_ARG_TAG = ListingActivity.CLICKEDCATEGORYNUMBER_TAG;
+    private static final String ARGUMENT_NAME = ListingActivity.EXTRA_LISTING_NAME;
 
-    private final String BUNDLE_SECONDTEXTVIEW_VISIBILITY = "second_text_view_visibility";
-    private final String BUNDLE_SECONDTEXTVIEW_TEXT = "second_text_view_text";
-    private final String BUNDLE_SUBCATEGORYB_LIST = "subcategoryB_content";
+    private static final String ARGUMENT_NUMBER = ListingActivity.EXTRA_LISTING_NUMBER;
 
-    private final String BUNDLE_THIRDTEXTVIEW_VISIBILITY = "third_text_view_visibility";
-    private final String BUNDLE_THIRDTEXTVIEW_TEXT = "third_text_view_text";
-    private final String BUNDLE_SUBCATEGORYC_LIST = "subcategoryC_content";
+    private final String BUNDLE_SECONDTEXTVIEW_VISIBILITY = "BUNDLE_SECONDTEXTVIEW_VISIBILITY";
+    private final String BUNDLE_SECONDTEXTVIEW_TEXT = "BUNDLE_SECONDTEXTVIEW_TEXT";
+    private final String BUNDLE_SUBCATEGORYB_LIST = "BUNDLE_SUBCATEGORYB_LIST";
 
-    private final String BUNDLE_FORTHTEXTVIEW_VISIBILITY = "forth_text_view_visibility";
-    private final String BUNDLE_FORTHTEXTVIEW_TEXT = "forth_text_view_text";
-    private final String BUNDLE_SUBCATEGORYD_LIST = "subcategoryD_content";
+    private final String BUNDLE_THIRDTEXTVIEW_VISIBILITY = "BUNDLE_THIRDTEXTVIEW_VISIBILITY";
+    private final String BUNDLE_THIRDTEXTVIEW_TEXT = "BUNDLE_THIRDTEXTVIEW_TEXT";
+    private final String BUNDLE_SUBCATEGORYC_LIST = "BUNDLE_SUBCATEGORYC_LIST";
 
-    private final String BUNDLE_FIFTHTEXTVIEW_VISIBILITY = "fifth_text_view_visibility";
-    private final String BUNDLE_FIFTHTEXTVIEW_TEXT = "fifth_text_view_text";
-    private final String BUNDLE_SUBCATEGORYE_LIST = "subcategoryE_content";
+    private final String BUNDLE_FORTHTEXTVIEW_VISIBILITY = "BUNDLE_FORTHTEXTVIEW_VISIBILITY";
+    private final String BUNDLE_FORTHTEXTVIEW_TEXT = "BUNDLE_FORTHTEXTVIEW_TEXT";
+    private final String BUNDLE_SUBCATEGORYD_LIST = "BUNDLE_SUBCATEGORYD_LIST";
+
+    private final String BUNDLE_FIFTHTEXTVIEW_VISIBILITY = "BUNDLE_FIFTHTEXTVIEW_VISIBILITY";
+    private final String BUNDLE_FIFTHTEXTVIEW_TEXT = "BUNDLE_FIFTHTEXTVIEW_TEXT";
+    private final String BUNDLE_SUBCATEGORYE_LIST = "BUNDLE_SUBCATEGORYE_LIST";
 
 
     private ArrayList<Subcategory> mSubcategoryBList = new ArrayList<>();
@@ -80,13 +83,13 @@ public class ListingConditionFragment extends Fragment {
 
     private TradeMeApi tradeMeApi;
 
-    @BindView(R.id.tv_listing_category_first_condition)
+    @BindView(R.id.text_listing_category_first_condition)
     TextView tv_first_condition;
-    @BindView(R.id.tv_listing_category_second_condition)
+    @BindView(R.id.text_listing_category_second_condition)
     TextView tv_second_condition;
-    @BindView(R.id.tv_listing_category_third_condition)
+    @BindView(R.id.text_listing_category_third_condition)
     TextView tv_third_condition;
-    @BindView(R.id.tv_listing_category_forth_condition)
+    @BindView(R.id.text_listing_category_forth_condition)
     TextView tv_forth_condition;
     @BindView(R.id.tv_listing_category_fifth_condition)
     TextView tv_fifth_condition;
@@ -101,7 +104,7 @@ public class ListingConditionFragment extends Fragment {
     public static ListingConditionFragment newInstance(String param1) {
         ListingConditionFragment fragment = new ListingConditionFragment();
         Bundle args = new Bundle();
-        args.putString(NAME_ARG_TAG, param1);
+        args.putString(ARGUMENT_NAME, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,9 +115,9 @@ public class ListingConditionFragment extends Fragment {
 
         if (getArguments() != null) {
 
-            mCurrentSubcategoryName = getArguments().getString(NAME_ARG_TAG);
+            mCurrentSubcategoryName = getArguments().getString(ARGUMENT_NAME);
 
-            String mCurrentSubcategoryNumber = getArguments().getString(NUMBER_ARG_TAG);
+            String mCurrentSubcategoryNumber = getArguments().getString(ARGUMENT_NUMBER);
 
             loadSecondSubCategoryAPI(mCurrentSubcategoryNumber);
 
@@ -266,7 +269,7 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tv_listing_category_first_condition)
+    @OnClick(R.id.text_listing_category_first_condition)
     public void chooseSecondCategory() {
         if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryBNameList)
@@ -291,7 +294,7 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tv_listing_category_second_condition)
+    @OnClick(R.id.text_listing_category_second_condition)
     public void chooseThirdCategory() {
         if (mSubcategoryCList != null && mSubcategoryCList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryCNameList)
@@ -313,7 +316,7 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tv_listing_category_third_condition)
+    @OnClick(R.id.text_listing_category_third_condition)
     public void chooseForthCategory() {
         if (mSubcategoryDList != null && mSubcategoryDList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryDNameList)
@@ -335,7 +338,7 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.tv_listing_category_forth_condition)
+    @OnClick(R.id.text_listing_category_forth_condition)
     public void chooseFifthCategory() {
         if (mSubcategoryEList != null && mSubcategoryEList.size() > 0) {
             DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryENameList)
@@ -375,7 +378,7 @@ public class ListingConditionFragment extends Fragment {
 
                     fetchSecondCategory();
 
-                    Log.d("ListConditionFragment", "Loaded from SecondSubCategoryAPI is complete");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from SecondSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -383,7 +386,7 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -396,7 +399,7 @@ public class ListingConditionFragment extends Fragment {
 
                 } else {
                     //Other cause which mean Object format wrong or API problem
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }
@@ -427,7 +430,7 @@ public class ListingConditionFragment extends Fragment {
                     tv_fifth_condition.setVisibility(View.GONE);
 
 
-                    Log.d("ListConditionFragment", "Loaded from ThirdSubCategoryAPI is complete");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from ThirdSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -435,7 +438,7 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -448,7 +451,7 @@ public class ListingConditionFragment extends Fragment {
 
                 } else {
                     //Other cause which mean Object format wrong or API problem
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }
@@ -479,7 +482,7 @@ public class ListingConditionFragment extends Fragment {
                     tv_forth_condition.setVisibility(View.GONE);
                     tv_fifth_condition.setVisibility(View.GONE);
 
-                    Log.d("ListConditionFragment", "Loaded from ForthSubCategoryAPI is complete");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from ForthSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -487,7 +490,7 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -500,7 +503,7 @@ public class ListingConditionFragment extends Fragment {
 
                 } else {
                     //Other cause which mean Object format wrong or API problem
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }
@@ -529,7 +532,7 @@ public class ListingConditionFragment extends Fragment {
 
                     tv_fifth_condition.setVisibility(View.GONE);
 
-                    Log.d("ListConditionFragment", "Loaded from FifthSubCategoryAPI is complete");
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from FifthSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -537,7 +540,7 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    Log.d("ListConditionFragment", "Error code: " + statusCode + response.message());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -546,11 +549,11 @@ public class ListingConditionFragment extends Fragment {
             public void onFailure(Call<Category> call, Throwable t) {
                 if (t instanceof IOException) {
                     // IOException is because Internet issue
-                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
 
                 } else {
                     //Other cause which mean Object format wrong or API problem
-                    Log.d("MarketCategoryActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }

@@ -1,18 +1,15 @@
 <resources>
     <string name="app_name">TradeYou</string>
 
-    <string name="title_home_browse">Browse</string>
+    <string name="title_browse_listing_page">Browse</string>
+    <string name="title_marketPlace_home">Marketplace</string>
+    <string name="title_jobs_home">Jobs</string>
+    <string name="title_motors_home">Motors</string>
+    <string name="title_property_home">Property</string>
+    <string name="title_browse_marketPlace_category">Browse Marketplace</string>
 
-    <string name="marketPlace_home">Marketplace</string>
-    <string name="jobs_home">Jobs</string>
-    <string name="motors_home">Motors</string>
-    <string name="property_home">Property</string>
+    <string name="empty_message">Oops! No results found.</string>
 
-    <string name="activity_label_marketPlace_categoryBrowse">Browse Marketplace</string>
-
-    <string name="contentDescription_item_listing_image">Item preview image in listing</string>
-
-    <string name="noData_message">Oops! No results found.</string>
     <string name="nav_login_title">Welcome to</string>
     <string name="nav_login_subtitle">Trade You</string>
     <string name="nav_notification_title">Notification</string>
@@ -22,8 +19,11 @@
     <string name="error_internet_issue_toast">Internet is disconnected :( Check internet connection</string>
     <string name="error_other_issue_toast">Listing fetched failed :( Please try again later</string>
 
+    <string name="content_description_item_listing_image">Item preview image in listing</string>
     <string name="content_description_main_banner_img">banner_pic</string>
     <string name="content_description_main_drawerLayout_toggle">drawerLayout_toggle</string>
     <string name="content_description_drawer_avatar">avator icon in drawer navigation</string>
 
+    <string name="details_title">Listing Details</string>
+    <string name="details_empty_title">\u0020</string>
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -12,11 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
-import com.jc.android.tradeyou.data.api.util.APIError;
-import com.jc.android.tradeyou.data.api.util.ErrorUtils;
 import com.jc.android.tradeyou.data.api.ServiceGenerator;
 import com.jc.android.tradeyou.data.api.TradeMeApi;
+import com.jc.android.tradeyou.data.api.util.APIError;
+import com.jc.android.tradeyou.data.api.util.ErrorUtils;
 import com.jc.android.tradeyou.data.models.details.ItemDetails;
 
 import java.io.IOException;
@@ -29,21 +31,20 @@ import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    public static final String CLICKEDLISTINGID_TAG = "clickedListingId_tag";
+    private static final String TAG = DetailsActivity.class.getSimpleName();
+
+    public static final String EXTRA_LISTING_ID = "com.tradeyou.extras.EXTRA_LISTING_ID";
 
     private int mListingId;
 
-    //    @BindView(R.id.progressBar_detailPage)
-//    ProgressBar progressBar_imageLoading;
+    @BindView(R.id.text_detail_page_id)
+    TextView mTextViewListingId;
 
-    @BindView(R.id.tv_item_listingId)
-    TextView tv_listing_id;
+    @BindView(R.id.text_detail_page_title)
+    TextView mTextViewListingTitle;
 
-    @BindView(R.id.tv_item_listingTitle_detail_page)
-    TextView tv_listing_title;
-
-    @BindView(R.id.iv_itemImage_detail_page)
-    ImageView iv_listing_picture;
+    @BindView(R.id.image_detail_page_picture)
+    ImageView mImageViewListingPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         getListingIdFromListingActivity();
 
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        initView();
 
+        loadTradeMeApi();
+
+    }
+
+    private void initView() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -65,7 +72,7 @@ public class DetailsActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar);
 
 
-        AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
+        AppBarLayout appBarLayout = findViewById(R.id.appBar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -76,10 +83,10 @@ public class DetailsActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset < 30) {
-                    collapsingToolbar.setTitle("Listing Details");
+                    collapsingToolbar.setTitle(getResources().getString(R.string.details_title));
                     isShow = true;
-                } else if(isShow) {
-                    collapsingToolbar.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                } else if (isShow) {
+                    collapsingToolbar.setTitle(getResources().getString(R.string.details_empty_title));
                     isShow = false;
                 }
             }
@@ -87,10 +94,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        tv_listing_id.setText(String.valueOf(mListingId));
-
-        loadTradeMeApi();
-
+        mTextViewListingId.setText(String.valueOf(mListingId));
     }
 
     private void loadTradeMeApi() {
@@ -99,7 +103,10 @@ public class DetailsActivity extends AppCompatActivity {
         String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
 
         TradeMeApi mTradeMeApi = ServiceGenerator.createService(TradeMeApi.class,
-                " OAuth oauth_consumer_key=\"" + consumerKey + "\"," + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"" + consumerSecret + "&\"");
+                " OAuth oauth_consumer_key=\""
+                        + consumerKey + "\","
+                        + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\""
+                        + consumerSecret + "&\"");
 
         mTradeMeApi.getItemDetailsFromID(String.valueOf(mListingId)).enqueue(new Callback<ItemDetails>() {
             @Override
@@ -108,31 +115,36 @@ public class DetailsActivity extends AppCompatActivity {
 
                     String listingTitle = response.body().getItemTitle();
 
-                    tv_listing_title.setText(listingTitle);
+                    mTextViewListingTitle.setText(listingTitle);
 
-                    if (response.body().getItemPictureUrlCollections() != null && response.body().getItemPictureUrlCollections().size() > 0) {
+                    if (response.body().getItemPictureUrlCollections() != null
+                            && response.body().getItemPictureUrlCollections().size() > 0) {
 
-                        String listingPicUrl = response.body().getItemPictureUrlCollections().get(0).getUrlList().getLargeUrl();
+                        String listingPicUrl = response.body()
+                                .getItemPictureUrlCollections()
+                                .get(0).getUrlList()
+                                .getLargeUrl();
 
-                        Glide.with(getApplicationContext()).
-                                load(listingPicUrl).
-                                into(iv_listing_picture);
+                        Glide.with(getApplicationContext())
+                                .load(listingPicUrl)
+                                .into(mImageViewListingPicture);
                     } else {
-                        iv_listing_picture.setImageResource(R.drawable.art_img_placeholder);
+                        mImageViewListingPicture.setImageResource(R.drawable.art_img_placeholder);
                     }
-
-                    //setUpProgressBarInvisible();
 
                 } else {
 
                     int statusCode = response.code();
 
                     if (statusCode == 500)
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.error_server_issue_toast),
+                                Toast.LENGTH_SHORT).show();
 
                     APIError error = ErrorUtils.parseError(response);
 
-                    Log.d("DetailActivity", "Error code: " + statusCode + response.message() + error.message());
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Error code: " + statusCode + response.message() + error.message());
                 }
             }
 
@@ -140,22 +152,21 @@ public class DetailsActivity extends AppCompatActivity {
             public void onFailure(Call<ItemDetails> call, Throwable t) {
 
                 if (t instanceof IOException) {
-                    Toast.makeText(getApplicationContext(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.error_internet_issue_toast),
+                            Toast.LENGTH_SHORT).show();
 
                 } else {
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.error_other_issue_toast),
+                            Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(), "Details fetched failed :( Please try again later", Toast.LENGTH_SHORT).show();
-                    Log.d("DetailActivity", "Error: " + t.getMessage());
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 
                 }
             }
         });
     }
-
-//    private void setUpProgressBarInvisible() {
-//        progressBar_imageLoading.setProgress(100);
-//        progressBar_imageLoading.setVisibility(View.INVISIBLE);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -170,7 +181,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void getListingIdFromListingActivity() {
         Intent intent = getIntent();
         if (intent.getExtras() != null)
-            mListingId = intent.getExtras().getInt(CLICKEDLISTINGID_TAG);
+            mListingId = intent.getExtras().getInt(EXTRA_LISTING_ID);
     }
 
 }

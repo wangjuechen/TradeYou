@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.ui.DetailsActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.models.listing.ListingDetails;
@@ -25,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.ItemListingAdapterViewHolder> {
+
+    private static final String TAG = ItemListingAdapter.class.getSimpleName();
 
     private final Context mContext;
 
@@ -40,7 +43,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
         boolean shouldAttachToParent = false;
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_listing_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listing, parent, shouldAttachToParent);
 
         return new ItemListingAdapterViewHolder(view);
     }
@@ -70,10 +73,10 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
     public class ItemListingAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
-        @BindView(R.id.tv_item_listingTitle)
+        @BindView(R.id.text_item_listingTitle)
         TextView tv_listingTitle;
 
-        @BindView(R.id.iv_item_listingPhoto)
+        @BindView(R.id.image_item_listingPhoto)
         ImageView iv_listingImage;
 
 
@@ -93,7 +96,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
             startDetailsActivity(clickedListingId);
 
-            Log.d("ItemListingAdapter: ", "Clicked listing Id, " +  clickedListingId);
+            if (BuildConfig.DEBUG) Log.d(TAG, "Clicked listing Id, " +  clickedListingId);
 
         }
 
@@ -101,7 +104,7 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
 
             Bundle bundle = new Bundle();
 
-            bundle.putInt(DetailsActivity.CLICKEDLISTINGID_TAG, listingId);
+            bundle.putInt(DetailsActivity.EXTRA_LISTING_ID, listingId);
 
             Intent intent = new Intent(mContext, DetailsActivity.class);
 
