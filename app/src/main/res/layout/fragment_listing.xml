@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jc.android.tradeyou.ListingContentFragment">
+    tools:context="com.jc.android.tradeyou.ui.ListingContentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:contentDescription="@string/noData_message"
                 android:scaleType="fitCenter"
-                android:src="@drawable/no_listing_pic"
+                android:src="@drawable/art_empty_listing"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">TradeYou</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
 
     <string name="title_home_browse">Browse</string>
 
@@ -14,25 +11,19 @@
     <string name="activity_label_marketPlace_categoryBrowse">Browse Marketplace</string>
 
     <string name="contentDescription_item_listing_image">Item preview image in listing</string>
-    <string name="contentDescription_cotegory_condition_arrow">arrow in category condition</string>
-
-    <string name="listing_id_detail_page">Listing ID: %d</string>
-    <string name="listing_title_detail_page">Listing title: %s</string>
 
     <string name="noData_message">Oops! No results found.</string>
     <string name="nav_login_title">Welcome to</string>
     <string name="nav_login_subtitle">Trade You</string>
     <string name="nav_notification_title">Notification</string>
     <string name="nav_setting_title">Setting</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="error_server_issue_toast">Ops :( Please try again later</string>
     <string name="error_internet_issue_toast">Internet is disconnected :( Check internet connection</string>
     <string name="error_other_issue_toast">Listing fetched failed :( Please try again later</string>
 
-    <string name="listing_no_more">No more listings</string>
-    <string name="content_desciption_main_banner_img">banner_pic</string>
+    <string name="content_description_main_banner_img">banner_pic</string>
     <string name="content_description_main_drawerLayout_toggle">drawerLayout_toggle</string>
+    <string name="content_description_drawer_avatar">avator icon in drawer navigation</string>
 
 </resources>
