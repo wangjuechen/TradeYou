@@ -1,8 +1,6 @@
 package com.jc.android.tradeyou.data.api;
 
-
 import android.text.TextUtils;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

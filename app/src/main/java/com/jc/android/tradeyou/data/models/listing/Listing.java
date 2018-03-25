@@ -1,9 +1,7 @@
 package com.jc.android.tradeyou.data.models.listing;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Listing {

@@ -4,7 +4,6 @@ package com.jc.android.tradeyou.data.api;
 import com.jc.android.tradeyou.data.models.category.Category;
 import com.jc.android.tradeyou.data.models.details.ItemDetails;
 import com.jc.android.tradeyou.data.models.listing.Listing;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

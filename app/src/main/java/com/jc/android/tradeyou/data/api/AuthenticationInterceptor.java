@@ -1,8 +1,6 @@
 package com.jc.android.tradeyou.data.api;
 
-
 import java.io.IOException;
-
 import okhttp3.Interceptor;
 import okhttp3.Request;
 

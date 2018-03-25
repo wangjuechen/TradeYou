@@ -11,7 +11,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
@@ -20,11 +21,7 @@ import com.jc.android.tradeyou.data.api.TradeMeApi;
 import com.jc.android.tradeyou.data.api.util.APIError;
 import com.jc.android.tradeyou.data.api.util.ErrorUtils;
 import com.jc.android.tradeyou.data.models.details.ItemDetails;
-
 import java.io.IOException;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.ui.fragment.ListingConditionFragment;
 import com.jc.android.tradeyou.ui.fragment.ListingContentFragment;
 
-public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener {
+public class ListingActivity extends AppCompatActivity implements ListingConditionFragment
+        .OnFragmentInteractionListener {
 
     public static final String EXTRA_LISTING_NAME = "com.tradeyou.extras.EXTRA_LISTING_NAME";
 
