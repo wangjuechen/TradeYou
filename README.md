@@ -1,2 +1,2 @@
 # TradeYou
-A mock TradeMe exercide
+A mock TradeMe exercise
