@@ -26,6 +26,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Listing details screen, which displays listing picture, title and id.
+ */
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = DetailsActivity.class.getSimpleName();

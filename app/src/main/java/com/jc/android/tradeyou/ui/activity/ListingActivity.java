@@ -9,6 +9,7 @@ import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.ui.fragment.ListingConditionFragment;
 import com.jc.android.tradeyou.ui.fragment.ListingContentFragment;
 
+
 public class ListingActivity extends AppCompatActivity implements ListingConditionFragment
         .OnFragmentInteractionListener {
 
@@ -100,6 +101,10 @@ public class ListingActivity extends AppCompatActivity implements ListingConditi
     }
 
 
+    /**
+     * Refresh listing content based on categoryNumber
+     * @param categoryNumber is retrieved from ListingConditionFragment
+     */
     @Override
     public void onFragmentInteraction(String categoryNumber) {
         mListingContentFragment = ListingContentFragment.newInstance(categoryNumber);

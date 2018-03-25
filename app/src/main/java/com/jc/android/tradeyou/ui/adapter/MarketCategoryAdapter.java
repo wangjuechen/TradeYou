@@ -31,8 +31,8 @@ public class MarketCategoryAdapter extends RecyclerView.Adapter<MarketCategoryAd
     /**
      *
      * @param context
-     * @param CategoryList is entire category including jobs, motors, and properties
-     *                     sublist of CategoryList is needed for marketPlace category
+     * @param CategoryList is entire category including marketplace, jobs, motors, and properties,
+     *                     a sublist is needed for marketPlace category
      */
     public MarketCategoryAdapter(Context context, List<Subcategory> CategoryList) {
         this.mContext = context;

@@ -21,6 +21,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+/**
+ * Splash screen loads category data from api in background thread
+ * then pass the list to MainActivity
+ */
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();

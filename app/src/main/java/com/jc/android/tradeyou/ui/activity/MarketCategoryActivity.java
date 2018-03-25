@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+/**
+ * Category screen for market place category
+ */
 public class MarketCategoryActivity extends AppCompatActivity {
 
     public static final String EXTRA_CATEGORY_LIST = "com.tradeyou.extras.EXTRA_CATEGORY_LIST";

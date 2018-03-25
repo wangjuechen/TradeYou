@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Enter category screen first, then click subcategory to enter market place listing screen
+     */
     private void openMarketPlaceCategoryActivity() {
 
         Intent openMarketPlaceCategoryIntent = new Intent(this, MarketCategoryActivity.class);
@@ -99,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Directly entering jobs listing screen
+     */
     private void openJobsListingActivity() {
 
         Intent openJobListingActivityIntent = new Intent(this, ListingActivity.class);
@@ -123,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Directly entering motors listing screen
+     */
     private void openMotorsListingActivity() {
 
         Intent openMotorsListingActivityIntent = new Intent(this, ListingActivity.class);
@@ -144,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(openMotorsListingActivityIntent);
     }
 
+    /**
+     * Directly entering property listing screen
+     */
     private void openPropertyListingsActivity() {
 
         Intent openPropertyListingActivityIntent = new Intent(this, ListingActivity.class);

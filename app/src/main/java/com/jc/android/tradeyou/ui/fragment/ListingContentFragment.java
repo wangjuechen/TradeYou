@@ -40,7 +40,7 @@ import retrofit2.Response;
 
 
 /**
- * This fragment for condition choosing view of action bar in listing screen
+ * This fragment for listing content view under action bar
  */
 public class ListingContentFragment extends Fragment {
 
