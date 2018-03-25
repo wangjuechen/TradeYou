@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,10 +33,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadTradeMeAPI();
+        loadCategoryAPI();
     }
 
-    private void loadTradeMeAPI() {
+    private void loadCategoryAPI() {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
@@ -88,7 +88,6 @@ public class SplashActivity extends AppCompatActivity {
                     Toast.makeText(SplashActivity.this, getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
 
                 } else {
-
                     //Other cause which mean Object format wrong or API problem
                     if(BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
 

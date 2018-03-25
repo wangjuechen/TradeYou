@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.jc.android.tradeyou.BuildConfig;
-import com.jc.android.tradeyou.ui.DetailsActivity;
+import com.jc.android.tradeyou.ui.activity.DetailsActivity;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.models.listing.ListingDetails;
 
@@ -25,15 +25,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.ItemListingAdapterViewHolder> {
+public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ItemListingAdapterViewHolder> {
 
-    private static final String TAG = ItemListingAdapter.class.getSimpleName();
+    private static final String TAG = ListingAdapter.class.getSimpleName();
 
     private final Context mContext;
 
     private List<ListingDetails> mItemDetailsListing = new ArrayList<>();
 
-    public ItemListingAdapter(Context context, List<ListingDetails> itemDetailsList) {
+    public ListingAdapter(Context context, List<ListingDetails> itemDetailsList) {
         this.mContext = context;
         this.mItemDetailsListing = itemDetailsList;
     }
@@ -64,6 +64,10 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
         return position;
     }
 
+    /**
+     * Check if listing size is less than 20
+     * @return 20 listings or listing size if its less than 20
+     */
     @Override
     public int getItemCount() {
         int displayedCount = 20;
@@ -71,7 +75,6 @@ public class ItemListingAdapter extends RecyclerView.Adapter<ItemListingAdapter.
     }
 
     public class ItemListingAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
 
         @BindView(R.id.text_item_listingTitle)
         TextView tv_listingTitle;

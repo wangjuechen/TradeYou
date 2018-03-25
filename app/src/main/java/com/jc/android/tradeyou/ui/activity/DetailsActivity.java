@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         initView();
 
-        loadTradeMeApi();
+        loadListingDetailsApi();
 
     }
 
@@ -97,16 +97,16 @@ public class DetailsActivity extends AppCompatActivity {
         mTextViewListingId.setText(String.valueOf(mListingId));
     }
 
-    private void loadTradeMeApi() {
+    private void loadListingDetailsApi() {
 
-        String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
-        String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
+        String key = BuildConfig.TRADE_ME_API_CONSUMER_KEY;
+        String secret = BuildConfig.TRADE_ME_API_CONSUMER_SECRET;
 
         TradeMeApi mTradeMeApi = ServiceGenerator.createService(TradeMeApi.class,
                 " OAuth oauth_consumer_key=\""
-                        + consumerKey + "\","
+                        + key + "\","
                         + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\""
-                        + consumerSecret + "&\"");
+                        + secret + "&\"");
 
         mTradeMeApi.getItemDetailsFromID(String.valueOf(mListingId)).enqueue(new Callback<ItemDetails>() {
             @Override

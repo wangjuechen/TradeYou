@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.jc.android.tradeyou.ui.ListingActivity">
+    tools:context="com.jc.android.tradeyou.ui.activity.ListingActivity">
 
     <FrameLayout
         android:id="@+id/listing_condition_fragment_container"

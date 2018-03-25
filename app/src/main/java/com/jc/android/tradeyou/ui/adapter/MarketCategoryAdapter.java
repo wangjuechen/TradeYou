@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.jc.android.tradeyou.BuildConfig;
 import com.jc.android.tradeyou.R;
 import com.jc.android.tradeyou.data.models.category.Subcategory;
-import com.jc.android.tradeyou.ui.ListingActivity;
+import com.jc.android.tradeyou.ui.activity.ListingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryAdapterViewHolder> {
+public class MarketCategoryAdapter extends RecyclerView.Adapter<MarketCategoryAdapter.CategoryAdapterViewHolder> {
 
-    private static final String TAG = CategoryAdapter.class.getSimpleName();
+    private static final String TAG = MarketCategoryAdapter.class.getSimpleName();
 
     private final Context mContext;
     private List<Subcategory> mSubcategoryList = new ArrayList<>();
 
-    public CategoryAdapter(Context context, List<Subcategory> CategoryList) {
+    /**
+     *
+     * @param context
+     * @param CategoryList is entire category including jobs, motors, and properties
+     *                     sublist of CategoryList is needed for marketPlace category
+     */
+    public MarketCategoryAdapter(Context context, List<Subcategory> CategoryList) {
         this.mContext = context;
         int mMarketPlaceSubcategoryStartIndex = 3;
         this.mSubcategoryList = CategoryList.subList(mMarketPlaceSubcategoryStartIndex, CategoryList.size());
@@ -53,6 +59,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     }
 
+    /**
+     * For display alphabet letter before category name
+     * @param holder
+     */
     private void displayAlphabet(CategoryAdapterViewHolder holder) {
 
         holder.tv_alphabet.setText(mSubcategoryList.get(holder.getAdapterPosition()).getName().substring(0, 1));

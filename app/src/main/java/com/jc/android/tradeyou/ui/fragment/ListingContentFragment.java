@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,7 +24,8 @@ import com.jc.android.tradeyou.data.api.util.APIError;
 import com.jc.android.tradeyou.data.api.util.ErrorUtils;
 import com.jc.android.tradeyou.data.models.listing.Listing;
 import com.jc.android.tradeyou.data.models.listing.ListingDetails;
-import com.jc.android.tradeyou.ui.adapter.ItemListingAdapter;
+import com.jc.android.tradeyou.ui.activity.ListingActivity;
+import com.jc.android.tradeyou.ui.adapter.ListingAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,9 +40,7 @@ import retrofit2.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListingContentFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * This fragment for condition choosing view of action bar in listing screen
  */
 public class ListingContentFragment extends Fragment {
 
@@ -77,26 +76,13 @@ public class ListingContentFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment ListingContentFragment.
-     */
+
     public static ListingContentFragment newInstance(String param1) {
         ListingContentFragment fragment = new ListingContentFragment();
         Bundle args = new Bundle();
         args.putString(ARGUMENT_NAME, param1);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if(mListingRecyclerView.getLayoutManager() != null) outState.putParcelable(BUNDLE_RECYCLE_LAYOUT, mListingRecyclerView.getLayoutManager().onSaveInstanceState());
-        outState.putString(BUNDLE_CATEGORY_NUMBER, mCategoryNumber);
     }
 
     @Override
@@ -114,7 +100,7 @@ public class ListingContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        loadTradeMeAPI(savedInstanceState);
+        loadListingApi(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_listing_content, container, false);
 
@@ -134,7 +120,7 @@ public class ListingContentFragment extends Fragment {
             @Override
             public void onRefresh() {
 
-                loadTradeMeAPI(null);
+                loadListingApi(null);
             }
         });
 
@@ -147,13 +133,24 @@ public class ListingContentFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void loadTradeMeAPI(final Bundle savedInstanceState) {
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mListingRecyclerView.getLayoutManager() != null)
+            outState.putParcelable(BUNDLE_RECYCLE_LAYOUT, mListingRecyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putString(BUNDLE_CATEGORY_NUMBER, mCategoryNumber);
+    }
 
-        String consumerKey = "A1AC63F0332A131A78FAC304D007E7D1";
-        String consumerSecret = "EC7F18B17A062962C6930A8AE88B16C7";
+    private void loadListingApi(final Bundle savedInstanceState) {
+
+        String key = BuildConfig.TRADE_ME_API_CONSUMER_KEY;
+        String secret = BuildConfig.TRADE_ME_API_CONSUMER_SECRET;
 
         TradeMeApi tradeMeApi = ServiceGenerator.createService(TradeMeApi.class,
-                " OAuth oauth_consumer_key=\"" + consumerKey + "\"," + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\"" + consumerSecret + "&\"");
+                " OAuth oauth_consumer_key=\""
+                        + key + "\","
+                        + " oauth_signature_method=\"PLAINTEXT\", oauth_signature=\""
+                        + secret + "&\"");
 
         //"List" query value make listing photos get more resolution, instead of being blurred
         tradeMeApi.getListing(mCategoryNumber, "List").enqueue(new Callback<Listing>() {
@@ -164,6 +161,7 @@ public class ListingContentFragment extends Fragment {
 
                     if (mItemDetailsList != null && mItemDetailsList.size() > 0)
                         mItemDetailsList.clear();
+
                     mItemDetailsList = response.body().getItemDetailsList();
 
                     if (BuildConfig.DEBUG) Log.d(TAG, "Listing loaded from API");
@@ -186,7 +184,8 @@ public class ListingContentFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message() + error.message());
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Error code: " + statusCode + response.message() + error.message());
 
                 }
             }
@@ -212,7 +211,7 @@ public class ListingContentFragment extends Fragment {
 
     private void displayRecyclerView(Bundle savedInstanceState) {
 
-        ItemListingAdapter mItemListingAdapter = new ItemListingAdapter(getActivity(), mItemDetailsList);
+        ListingAdapter mListingAdapter = new ListingAdapter(getActivity(), mItemDetailsList);
 
         layoutManager = new LinearLayoutManager(getActivity());
 
@@ -220,7 +219,7 @@ public class ListingContentFragment extends Fragment {
 
         mListingRecyclerView.setHasFixedSize(true);
 
-        mListingRecyclerView.setAdapter(mItemListingAdapter);
+        mListingRecyclerView.setAdapter(mListingAdapter);
 
         if (savedInstanceState != null) {
             mCategoryNumber = savedInstanceState.getString(BUNDLE_CATEGORY_NUMBER);

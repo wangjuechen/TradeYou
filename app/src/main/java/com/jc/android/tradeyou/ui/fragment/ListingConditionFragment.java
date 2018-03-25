@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +19,7 @@ import com.jc.android.tradeyou.data.api.ServiceGenerator;
 import com.jc.android.tradeyou.data.api.TradeMeApi;
 import com.jc.android.tradeyou.data.models.category.Category;
 import com.jc.android.tradeyou.data.models.category.Subcategory;
+import com.jc.android.tradeyou.ui.activity.ListingActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +33,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+/**
+ * This fragment for condition choosing view of action bar in listing screen
+ */
 public class ListingConditionFragment extends Fragment {
 
     private static final String TAG = ListingConditionFragment.class.getSimpleName();
@@ -93,9 +95,6 @@ public class ListingConditionFragment extends Fragment {
     TextView tv_forth_condition;
     @BindView(R.id.tv_listing_category_fifth_condition)
     TextView tv_fifth_condition;
-    @BindView(R.id.scrollView_category_condition)
-    HorizontalScrollView scrollView_category_condition;
-
 
     public ListingConditionFragment() {
 
@@ -119,7 +118,7 @@ public class ListingConditionFragment extends Fragment {
 
             String mCurrentSubcategoryNumber = getArguments().getString(ARGUMENT_NUMBER);
 
-            loadSecondSubCategoryAPI(mCurrentSubcategoryNumber);
+            loadSecondSubCategoryApi(mCurrentSubcategoryNumber);
 
         }
     }
@@ -243,6 +242,9 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
+    /**
+     * Specific for configuration change, after restore textView status
+     */
     private void determineDrawableArrowVisibility() {
         if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
             tv_first_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_white_18px, 0);
@@ -279,7 +281,7 @@ public class ListingConditionFragment extends Fragment {
                         @Override
                         public void onChoiceItem(int index, Object item) {
 
-                            loadThirdSubcategoryAPI(mSubcategoryBList.get(index).getIdentifier_number(), index);
+                            loadThirdSubcategoryApi(mSubcategoryBList.get(index).getIdentifier_number(), index);
 
                         }
                     }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
@@ -304,7 +306,7 @@ public class ListingConditionFragment extends Fragment {
                         @Override
                         public void onChoiceItem(int index, Object item) {
 
-                            loadForthSubcategoryAPI(mSubcategoryCList.get(index).getIdentifier_number(), index);
+                            loadForthSubcategoryApi(mSubcategoryCList.get(index).getIdentifier_number(), index);
                         }
                     }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
 
@@ -326,7 +328,7 @@ public class ListingConditionFragment extends Fragment {
                         @Override
                         public void onChoiceItem(int index, Object item) {
 
-                            loadFifthSubcategoryAPI(mSubcategoryDList.get(index).getIdentifier_number(), index);
+                            loadFifthSubcategoryApi(mSubcategoryDList.get(index).getIdentifier_number(), index);
                         }
                     }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
 
@@ -361,7 +363,7 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    private void loadSecondSubCategoryAPI(String queryCategory) {
+    private void loadSecondSubCategoryApi(String queryCategory) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
@@ -406,7 +408,7 @@ public class ListingConditionFragment extends Fragment {
         });
     }
 
-    private void loadThirdSubcategoryAPI(String queryCategory, final int index) {
+    private void loadThirdSubcategoryApi(String queryCategory, final int index) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
@@ -458,7 +460,7 @@ public class ListingConditionFragment extends Fragment {
         });
     }
 
-    private void loadForthSubcategoryAPI(String queryCategory, final int index) {
+    private void loadForthSubcategoryApi(String queryCategory, final int index) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
@@ -510,7 +512,7 @@ public class ListingConditionFragment extends Fragment {
         });
     }
 
-    private void loadFifthSubcategoryAPI(String queryCategory, final int index) {
+    private void loadFifthSubcategoryApi(String queryCategory, final int index) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 

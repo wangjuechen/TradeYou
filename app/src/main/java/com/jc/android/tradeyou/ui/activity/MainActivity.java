@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -171,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.nav_notification) {
-
+            //Open notification screen in future version
         } else if (id == R.id.nav_setting) {
-
+            //Open setting screen in future version
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

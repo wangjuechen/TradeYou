@@ -6,7 +6,7 @@
     android:id="@+id/swiperefresh_listing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jc.android.tradeyou.ui.ListingContentFragment">
+    tools:context="com.jc.android.tradeyou.ui.fragment.ListingContentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

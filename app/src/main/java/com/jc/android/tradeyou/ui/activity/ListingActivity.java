@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.jc.android.tradeyou.R;
+import com.jc.android.tradeyou.ui.fragment.ListingConditionFragment;
+import com.jc.android.tradeyou.ui.fragment.ListingContentFragment;
 
 public class ListingActivity extends AppCompatActivity implements ListingConditionFragment.OnFragmentInteractionListener {
 

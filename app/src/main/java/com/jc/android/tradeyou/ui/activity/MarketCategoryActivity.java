@@ -1,4 +1,4 @@
-package com.jc.android.tradeyou.ui;
+package com.jc.android.tradeyou.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.jc.android.tradeyou.R;
-import com.jc.android.tradeyou.ui.adapter.CategoryAdapter;
+import com.jc.android.tradeyou.ui.adapter.MarketCategoryAdapter;
 import com.jc.android.tradeyou.data.models.category.Subcategory;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
 
-        CategoryAdapter mCategoryAdapter = new CategoryAdapter(this, mMarketPlaceCategoryList);
+        MarketCategoryAdapter mMarketCategoryAdapter = new MarketCategoryAdapter(this, mMarketPlaceCategoryList);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
@@ -62,7 +62,7 @@ public class MarketCategoryActivity extends AppCompatActivity {
 
         mRecyclerView_CategoryList.setHasFixedSize(true);
 
-        mRecyclerView_CategoryList.setAdapter(mCategoryAdapter);
+        mRecyclerView_CategoryList.setAdapter(mMarketCategoryAdapter);
     }
 
     @Override

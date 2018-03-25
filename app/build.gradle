@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        it.buildConfigField 'String', 'TRADE_ME_API_CONSUMER_KEY', consumerKey
+        it.buildConfigField 'String', 'TRADE_ME_API_CONSUMER_SECRET', consumerSecret
+    }
 }
 
 dependencies {
