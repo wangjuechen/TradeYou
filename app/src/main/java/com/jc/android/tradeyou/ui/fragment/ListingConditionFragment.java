@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.yhq.dialog.core.DialogBuilder;
 import retrofit2.Call;
@@ -36,7 +35,7 @@ import retrofit2.Response;
 /**
  * This fragment for condition choosing view of action bar in listing screen
  */
-public class ListingConditionFragment extends Fragment {
+public class ListingConditionFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = ListingConditionFragment.class.getSimpleName();
 
@@ -81,6 +80,11 @@ public class ListingConditionFragment extends Fragment {
 
     private Unbinder unbinder;
 
+    /**
+     * This flag is to check how many layers of subcategory users has entered
+     */
+    private int currentLoadedSubcategoryLayer;
+
     private OnFragmentInteractionListener mListener;
 
     private TradeMeApi tradeMeApi;
@@ -93,7 +97,7 @@ public class ListingConditionFragment extends Fragment {
     TextView tv_third_condition;
     @BindView(R.id.text_listing_category_forth_condition)
     TextView tv_forth_condition;
-    @BindView(R.id.tv_listing_category_fifth_condition)
+    @BindView(R.id.text_listing_category_fifth_condition)
     TextView tv_fifth_condition;
 
     public ListingConditionFragment() {
@@ -132,6 +136,8 @@ public class ListingConditionFragment extends Fragment {
 
         tv_first_condition.setText(mCurrentSubcategoryName);
 
+        tv_first_condition.setOnClickListener(this);
+
         return rootView;
     }
 
@@ -156,6 +162,59 @@ public class ListingConditionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    //TODO: There is an issue at the moment, currentLoadedSubcategoryLayer need to be put in other position to refresh UI
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.text_listing_category_first_condition:
+                currentLoadedSubcategoryLayer = 2;
+                openCategoryChoosingDialog(mSubcategoryBNameList, mSubcategoryBList);
+
+                break;
+            case R.id.text_listing_category_second_condition:
+                currentLoadedSubcategoryLayer = 3;
+                openCategoryChoosingDialog(mSubcategoryCNameList, mSubcategoryCList);
+
+                break;
+            case R.id.text_listing_category_third_condition:
+                currentLoadedSubcategoryLayer = 4;
+                openCategoryChoosingDialog(mSubcategoryDNameList, mSubcategoryDList);
+
+                break;
+            case R.id.text_listing_category_forth_condition:
+                currentLoadedSubcategoryLayer = 5;
+                openCategoryChoosingDialog(mSubcategoryENameList, mSubcategoryEList);
+
+                break;
+        }
+    }
+
+    private void openCategoryChoosingDialog(final ArrayList<String> nameList, final ArrayList<Subcategory> categoryList) {
+
+        if (categoryList != null && categoryList.size() > 0) {
+            DialogBuilder.listDialog(getActivity()).setChoiceItems(nameList)
+                    .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
+                    .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
+
+                        @Override
+                        public void onChoiceItem(int index, Object item) {
+
+                            loadSubcategoryApi(categoryList.get(index).getIdentifier_number(), nameList, categoryList, index);
+
+                        }
+                    }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    mListener.onFragmentInteraction(categoryList.get(which).getIdentifier_number());
+
+                }
+            }).show();
+        }
+
     }
 
     public interface OnFragmentInteractionListener {
@@ -203,7 +262,7 @@ public class ListingConditionFragment extends Fragment {
                     savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYB_LIST).size() > 0) {
 
                 mSubcategoryBList = savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYB_LIST);
-                fetchSecondCategory();
+                fetchCategoryName(mSubcategoryBNameList, mSubcategoryBList);
             }
 
             if ((savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYC_LIST) != null &&
@@ -212,7 +271,7 @@ public class ListingConditionFragment extends Fragment {
                 tv_second_condition.setVisibility(View.VISIBLE);
                 tv_second_condition.setText(savedInstanceState.getString(BUNDLE_SECONDTEXTVIEW_TEXT));
                 mSubcategoryCList = savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYC_LIST);
-                fetchThirdCategory();
+                fetchCategoryName(mSubcategoryCNameList, mSubcategoryCList);
             }
 
             if ((savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYD_LIST) != null &&
@@ -221,7 +280,7 @@ public class ListingConditionFragment extends Fragment {
                 tv_third_condition.setVisibility(View.VISIBLE);
                 tv_third_condition.setText(savedInstanceState.getString(BUNDLE_THIRDTEXTVIEW_TEXT));
                 mSubcategoryDList = savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYD_LIST);
-                fetchForthCategory();
+                fetchCategoryName(mSubcategoryDNameList, mSubcategoryDList);
             }
 
             if ((savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYE_LIST) != null &&
@@ -230,7 +289,7 @@ public class ListingConditionFragment extends Fragment {
                 tv_forth_condition.setVisibility(View.VISIBLE);
                 tv_forth_condition.setText(savedInstanceState.getString(BUNDLE_FORTHTEXTVIEW_TEXT));
                 mSubcategoryEList = savedInstanceState.getParcelableArrayList(BUNDLE_SUBCATEGORYE_LIST);
-                fetchFifthCategory();
+                fetchCategoryName(mSubcategoryENameList, mSubcategoryEList);
             }
 
             if (savedInstanceState.getBoolean(BUNDLE_FIFTHTEXTVIEW_VISIBILITY)) {
@@ -271,98 +330,11 @@ public class ListingConditionFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.text_listing_category_first_condition)
-    public void chooseSecondCategory() {
-        if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
-            DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryBNameList)
-                    .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
-                    .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
 
-                        @Override
-                        public void onChoiceItem(int index, Object item) {
-
-                            loadThirdSubcategoryApi(mSubcategoryBList.get(index).getIdentifier_number(), index);
-
-                        }
-                    }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    mListener.onFragmentInteraction(mSubcategoryBList.get(which).getIdentifier_number());
-
-                }
-            }).show();
-        }
-    }
-
-    @OnClick(R.id.text_listing_category_second_condition)
-    public void chooseThirdCategory() {
-        if (mSubcategoryCList != null && mSubcategoryCList.size() > 0) {
-            DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryCNameList)
-                    .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
-                    .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
-
-                        @Override
-                        public void onChoiceItem(int index, Object item) {
-
-                            loadForthSubcategoryApi(mSubcategoryCList.get(index).getIdentifier_number(), index);
-                        }
-                    }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mListener.onFragmentInteraction(mSubcategoryCList.get(which).getIdentifier_number());
-                }
-            }).show();
-        }
-    }
-
-    @OnClick(R.id.text_listing_category_third_condition)
-    public void chooseForthCategory() {
-        if (mSubcategoryDList != null && mSubcategoryDList.size() > 0) {
-            DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryDNameList)
-                    .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
-                    .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
-
-                        @Override
-                        public void onChoiceItem(int index, Object item) {
-
-                            loadFifthSubcategoryApi(mSubcategoryDList.get(index).getIdentifier_number(), index);
-                        }
-                    }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mListener.onFragmentInteraction(mSubcategoryDList.get(which).getIdentifier_number());
-                }
-            }).show();
-        }
-    }
-
-    @OnClick(R.id.text_listing_category_forth_condition)
-    public void chooseFifthCategory() {
-        if (mSubcategoryEList != null && mSubcategoryEList.size() > 0) {
-            DialogBuilder.listDialog(getActivity()).setChoiceItems(mSubcategoryENameList)
-                    .setChoiceType(DialogBuilder.TYPE_CHOICE_NORMAL)
-                    .setOnChoiceListener(new DialogBuilder.OnChoiceListener() {
-
-                        @Override
-                        public void onChoiceItem(int index, Object item) {
-                            tv_fifth_condition.setText(mSubcategoryENameList.get(index));
-                            tv_fifth_condition.setVisibility(View.VISIBLE);
-
-                        }
-                    }).setOnChoiceClickListener(new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mListener.onFragmentInteraction(mSubcategoryEList.get(which).getIdentifier_number());
-                }
-            }).show();
-        }
-    }
-
+    /**
+     * This subcategory happens in the beginning of the activity, differs from others
+     * @param queryCategory
+     */
     private void loadSecondSubCategoryApi(String queryCategory) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
@@ -378,9 +350,10 @@ public class ListingConditionFragment extends Fragment {
 
                     mSubcategoryBList = response.body().getSubcategories();
 
-                    fetchSecondCategory();
+                    fetchCategoryName(mSubcategoryBNameList, mSubcategoryBList);
 
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from SecondSubCategoryAPI is complete");
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Loaded from SecondSubCategoryAPI is complete");
 
                 } else {
                     int statusCode = response.code();
@@ -388,7 +361,8 @@ public class ListingConditionFragment extends Fragment {
                     if (statusCode == 500)
                         Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
 
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Error code: " + statusCode + response.message());
 
                 }
             }
@@ -408,216 +382,106 @@ public class ListingConditionFragment extends Fragment {
         });
     }
 
-    private void loadThirdSubcategoryApi(String queryCategory, final int index) {
+
+    private void loadSubcategoryApi(String queryCategory,
+                                    final ArrayList<String> nameList,
+                                    final ArrayList<Subcategory> subcategoryList,
+                                    final int index) {
 
         tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
 
         tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
+
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
 
-                    if (mSubcategoryCList != null && mSubcategoryCList.size() > 0)
-                        mSubcategoryCList.clear();
+                    if (subcategoryList != null && subcategoryList.size() > 0)
+                        subcategoryList.clear();
 
-                    mSubcategoryCList = response.body().getSubcategories();
+                    ArrayList<Subcategory> temporarySubcategoryList = response.body().getSubcategories();
 
-                    fetchThirdCategory();
+                    storeSubcategoryList(temporarySubcategoryList, subcategoryList);
 
-                    tv_second_condition.setText(mSubcategoryBNameList.get(index));
+                    fetchCategoryName(nameList, subcategoryList);
+
+                    dynamicallyAddNewTextViewForNewSubcategory(currentLoadedSubcategoryLayer, index, nameList);
+
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Loaded from SecondSubCategoryAPI is complete");
+
+                } else {
+                    int statusCode = response.code();
+
+                    if (statusCode == 500)
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
+
+                    if (BuildConfig.DEBUG)
+                        Log.d(TAG, "Error code: " + statusCode + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Category> call, Throwable t) {
+                if (t instanceof IOException) {
+                    // IOException is because Internet issue
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    //Other cause which mean Object format wrong or API problem
+                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
+
+                }
+            }
+        });
+
+    }
+
+    private void storeSubcategoryList(ArrayList<Subcategory> temporarySubcategoryList, ArrayList<Subcategory> subcategoryList) {
+        subcategoryList = temporarySubcategoryList;
+    }
+
+    private void dynamicallyAddNewTextViewForNewSubcategory(int textViewIndex, int listIndex, ArrayList<String> nameList) {
+        if (nameList != null && nameList.size() > 0) {
+            switch (textViewIndex) {
+                case 2:
+                    tv_second_condition.setText(nameList.get(listIndex));
                     tv_second_condition.setVisibility(View.VISIBLE);
 
                     tv_third_condition.setVisibility(View.GONE);
                     tv_forth_condition.setVisibility(View.GONE);
                     tv_fifth_condition.setVisibility(View.GONE);
-
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from ThirdSubCategoryAPI is complete");
-
-                } else {
-                    int statusCode = response.code();
-
-                    if (statusCode == 500)
-                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-                if (t instanceof IOException) {
-                    // IOException is because Internet issue
-                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    //Other cause which mean Object format wrong or API problem
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
-
-                }
-            }
-        });
-    }
-
-    private void loadForthSubcategoryApi(String queryCategory, final int index) {
-
-        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
-
-        tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
-
-            @Override
-            public void onResponse(Call<Category> call, Response<Category> response) {
-                if (response.isSuccessful()) {
-
-                    if (mSubcategoryDList != null && mSubcategoryDList.size() > 0)
-                        mSubcategoryDList.clear();
-
-                    mSubcategoryDList = response.body().getSubcategories();
-
-
-                    fetchForthCategory();
-
-                    tv_third_condition.setText(mSubcategoryCNameList.get(index));
+                    mCurrentSubcategoryName  = mCurrentSubcategoryName +1;
+                    break;
+                case 3:
+                    tv_third_condition.setText(nameList.get(listIndex));
                     tv_third_condition.setVisibility(View.VISIBLE);
 
                     tv_forth_condition.setVisibility(View.GONE);
                     tv_fifth_condition.setVisibility(View.GONE);
+                    mCurrentSubcategoryName  = mCurrentSubcategoryName +1;
+                    break;
+                case 4:
 
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from ForthSubCategoryAPI is complete");
-
-                } else {
-                    int statusCode = response.code();
-
-                    if (statusCode == 500)
-                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-                if (t instanceof IOException) {
-                    // IOException is because Internet issue
-                    Toast.makeText(getActivity(), "Internet is disconnected :( Check internet connection", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    //Other cause which mean Object format wrong or API problem
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
-
-                }
-            }
-        });
-    }
-
-    private void loadFifthSubcategoryApi(String queryCategory, final int index) {
-
-        tradeMeApi = ServiceGenerator.createService(TradeMeApi.class, null);
-
-        tradeMeApi.getCategory(queryCategory, 1).enqueue(new Callback<Category>() {
-
-            @Override
-            public void onResponse(Call<Category> call, Response<Category> response) {
-                if (response.isSuccessful()) {
-
-                    if (mSubcategoryEList != null && mSubcategoryEList.size() > 0)
-                        mSubcategoryEList.clear();
-
-                    mSubcategoryEList = response.body().getSubcategories();
-
-                    fetchFifthCategory();
-
-                    tv_forth_condition.setText(mSubcategoryDNameList.get(index));
+                    tv_forth_condition.setText(nameList.get(listIndex));
                     tv_forth_condition.setVisibility(View.VISIBLE);
-
                     tv_fifth_condition.setVisibility(View.GONE);
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Loaded from FifthSubCategoryAPI is complete");
-
-                } else {
-                    int statusCode = response.code();
-
-                    if (statusCode == 500)
-                        Toast.makeText(getActivity(), getResources().getString(R.string.error_server_issue_toast), Toast.LENGTH_SHORT).show();
-
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error code: " + statusCode + response.message());
-
-                }
+                    mCurrentSubcategoryName  = mCurrentSubcategoryName +1;
+                    break;
             }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-                if (t instanceof IOException) {
-                    // IOException is because Internet issue
-                    Toast.makeText(getActivity(), getResources().getString(R.string.error_internet_issue_toast), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    //Other cause which mean Object format wrong or API problem
-                    if (BuildConfig.DEBUG) Log.d(TAG, "Error: " + t.getMessage());
-
-                }
-            }
-        });
-    }
-
-    private void fetchSecondCategory() {
-        mSubcategoryBNameList.clear();
-
-        if (mSubcategoryBList != null && mSubcategoryBList.size() > 0) {
-            for (int i = 0; i < mSubcategoryBList.size(); i++) {
-                mSubcategoryBNameList.add(mSubcategoryBList.get(i).getName());
-            }
-            tv_first_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_white_18px, 0);
-
-        } else {
-            tv_first_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
         }
     }
 
-    private void fetchThirdCategory() {
-        mSubcategoryCNameList.clear();
+    private void fetchCategoryName(ArrayList<String> nameList, ArrayList<Subcategory> subcategoryList) {
 
-        if (mSubcategoryCList != null && mSubcategoryCList.size() > 0) {
-            for (int i = 0; i < mSubcategoryCList.size(); i++) {
-                mSubcategoryCNameList.add(mSubcategoryCList.get(i).getName());
+        nameList.clear();
+
+        if (subcategoryList != null && subcategoryList.size() > 0) {
+            for (int i = 0; i < subcategoryList.size(); i++) {
+                nameList.add(subcategoryList.get(i).getName());
             }
-            tv_second_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_white_18px, 0);
-
-        } else {
-            tv_second_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 
-    private void fetchForthCategory() {
-
-        mSubcategoryDNameList.clear();
-
-        if (mSubcategoryDList != null && mSubcategoryDList.size() > 0) {
-            for (int i = 0; i < mSubcategoryDList.size(); i++) {
-                mSubcategoryDNameList.add(mSubcategoryDList.get(i).getName());
-            }
-            tv_third_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_white_18px, 0);
-
-        } else {
-            tv_third_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        }
-
-    }
-
-    private void fetchFifthCategory() {
-
-        mSubcategoryENameList.clear();
-
-        if (mSubcategoryEList != null && mSubcategoryEList.size() > 0) {
-            for (int i = 0; i < mSubcategoryEList.size(); i++) {
-                mSubcategoryENameList.add(mSubcategoryEList.get(i).getName());
-            }
-            tv_forth_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_white_18px, 0);
-        } else {
-            tv_forth_condition.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        }
-    }
 }
